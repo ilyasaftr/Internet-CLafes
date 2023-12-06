@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2023 at 01:39 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Dec 06, 2023 at 02:00 AM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 8.0.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -75,10 +75,10 @@ CREATE TABLE `report` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transaction detail`
+-- Table structure for table `transactiondetail`
 --
 
-CREATE TABLE `transaction detail` (
+CREATE TABLE `transactiondetail` (
   `TransactionID` int(11) NOT NULL,
   `PC_ID` int(11) NOT NULL,
   `CustomerName` varchar(255) NOT NULL,
@@ -146,9 +146,9 @@ ALTER TABLE `report`
   ADD KEY `PC_ID` (`PC_ID`);
 
 --
--- Indexes for table `transaction detail`
+-- Indexes for table `transactiondetail`
 --
-ALTER TABLE `transaction detail`
+ALTER TABLE `transactiondetail`
   ADD PRIMARY KEY (`PC_ID`,`TransactionID`),
   ADD KEY `TransactionID` (`TransactionID`);
 
@@ -230,11 +230,11 @@ ALTER TABLE `report`
   ADD CONSTRAINT `report_ibfk_1` FOREIGN KEY (`PC_ID`) REFERENCES `pc` (`PC_ID`);
 
 --
--- Constraints for table `transaction detail`
+-- Constraints for table `transactiondetail`
 --
-ALTER TABLE `transaction detail`
-  ADD CONSTRAINT `transaction detail_ibfk_1` FOREIGN KEY (`TransactionID`) REFERENCES `transactionheader` (`TransactionID`),
-  ADD CONSTRAINT `transaction detail_ibfk_2` FOREIGN KEY (`PC_ID`) REFERENCES `pc` (`PC_ID`);
+ALTER TABLE `transactiondetail`
+  ADD CONSTRAINT `transactiondetail_ibfk_1` FOREIGN KEY (`TransactionID`) REFERENCES `transactionheader` (`TransactionID`),
+  ADD CONSTRAINT `transactiondetail_ibfk_2` FOREIGN KEY (`PC_ID`) REFERENCES `pc` (`PC_ID`);
 
 --
 -- Constraints for table `transactionheader`
