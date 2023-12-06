@@ -16,7 +16,7 @@ public class Connect {
 	private final String DATABASE = "internet-clafes";
 
 	private final String HOST = "localhost:3306";
-	private final String CONNECTION = String.format("jdbc:mysql//%s/%s", HOST, DATABASE);
+	private final String CONNECTION = String.format("jdbc:mysql://%s/%s", HOST, DATABASE);
 
 	public ResultSet rs;
 	public ResultSetMetaData rsm;
@@ -31,6 +31,7 @@ public class Connect {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(CONNECTION, USERNAME, PASSWORD);
+			st = con.createStatement();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {

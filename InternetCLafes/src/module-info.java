@@ -3,4 +3,6 @@ module InternetCLafes {
 	opens model;
 	opens view;
 	requires java.sql;
+	requires javafx.graphics;
+	requires javafx.controls;
 }
