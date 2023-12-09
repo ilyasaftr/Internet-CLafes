@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2023 at 02:00 AM
+-- Generation Time: Dec 09, 2023 at 05:03 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `job` (
-  `JobID` int(11) NOT NULL,
-  `PC_ID` int(11) NOT NULL,
+  `Job_ID` int(11) NOT NULL,
   `UserID` int(11) NOT NULL,
+  `PC_ID` int(11) NOT NULL,
   `JobStatus` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -52,10 +52,11 @@ CREATE TABLE `pc` (
 --
 
 CREATE TABLE `pcbook` (
-  `BookID` int(11) NOT NULL,
+  `Book_ID` int(11) NOT NULL,
   `PC_ID` int(11) NOT NULL,
   `UserID` int(11) NOT NULL,
-  `BookedDate` date NOT NULL
+  `BookedDate` date NOT NULL,
+  `TransactionID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -66,10 +67,11 @@ CREATE TABLE `pcbook` (
 
 CREATE TABLE `report` (
   `Report_ID` int(11) NOT NULL,
-  `PC_ID` int(11) NOT NULL,
   `UserRole` varchar(255) NOT NULL,
+  `PC_ID` int(11) NOT NULL,
+  `ReportNote` text NOT NULL,
   `ReportDate` date NOT NULL,
-  `ReportNote` varchar(255) NOT NULL
+  `UserID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -82,7 +84,7 @@ CREATE TABLE `transactiondetail` (
   `TransactionID` int(11) NOT NULL,
   `PC_ID` int(11) NOT NULL,
   `CustomerName` varchar(255) NOT NULL,
-  `BookedTime` datetime NOT NULL
+  `BookedTime` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -120,9 +122,9 @@ CREATE TABLE `user` (
 -- Indexes for table `job`
 --
 ALTER TABLE `job`
-  ADD PRIMARY KEY (`JobID`),
-  ADD KEY `PC_ID` (`PC_ID`),
-  ADD KEY `UserID` (`UserID`);
+  ADD PRIMARY KEY (`Job_ID`),
+  ADD KEY `UserID` (`UserID`),
+  ADD KEY `PC_ID` (`PC_ID`);
 
 --
 -- Indexes for table `pc`
@@ -134,23 +136,22 @@ ALTER TABLE `pc`
 -- Indexes for table `pcbook`
 --
 ALTER TABLE `pcbook`
-  ADD PRIMARY KEY (`BookID`),
-  ADD KEY `PC_ID` (`PC_ID`),
-  ADD KEY `UserID` (`UserID`);
+  ADD PRIMARY KEY (`Book_ID`),
+  ADD KEY `TransactionID` (`TransactionID`,`PC_ID`);
 
 --
 -- Indexes for table `report`
 --
 ALTER TABLE `report`
   ADD PRIMARY KEY (`Report_ID`),
-  ADD KEY `PC_ID` (`PC_ID`);
+  ADD KEY `UserID` (`UserID`);
 
 --
 -- Indexes for table `transactiondetail`
 --
 ALTER TABLE `transactiondetail`
-  ADD PRIMARY KEY (`PC_ID`,`TransactionID`),
-  ADD KEY `TransactionID` (`TransactionID`);
+  ADD PRIMARY KEY (`TransactionID`,`PC_ID`),
+  ADD KEY `PC_ID` (`PC_ID`);
 
 --
 -- Indexes for table `transactionheader`
@@ -173,7 +174,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `job`
 --
 ALTER TABLE `job`
-  MODIFY `JobID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Job_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pc`
@@ -185,7 +186,7 @@ ALTER TABLE `pc`
 -- AUTO_INCREMENT for table `pcbook`
 --
 ALTER TABLE `pcbook`
-  MODIFY `BookID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Book_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `report`
@@ -213,34 +214,33 @@ ALTER TABLE `user`
 -- Constraints for table `job`
 --
 ALTER TABLE `job`
-  ADD CONSTRAINT `job_ibfk_1` FOREIGN KEY (`PC_ID`) REFERENCES `pc` (`PC_ID`),
-  ADD CONSTRAINT `job_ibfk_2` FOREIGN KEY (`UserID`) REFERENCES `user` (`UserID`);
+  ADD CONSTRAINT `job_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `user` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `job_ibfk_2` FOREIGN KEY (`PC_ID`) REFERENCES `pc` (`PC_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pcbook`
 --
 ALTER TABLE `pcbook`
-  ADD CONSTRAINT `pcbook_ibfk_1` FOREIGN KEY (`PC_ID`) REFERENCES `pc` (`PC_ID`),
-  ADD CONSTRAINT `pcbook_ibfk_2` FOREIGN KEY (`UserID`) REFERENCES `user` (`UserID`);
+  ADD CONSTRAINT `pcbook_ibfk_1` FOREIGN KEY (`TransactionID`,`PC_ID`) REFERENCES `transactiondetail` (`TransactionID`, `PC_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `report`
 --
 ALTER TABLE `report`
-  ADD CONSTRAINT `report_ibfk_1` FOREIGN KEY (`PC_ID`) REFERENCES `pc` (`PC_ID`);
+  ADD CONSTRAINT `report_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `user` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `transactiondetail`
 --
 ALTER TABLE `transactiondetail`
-  ADD CONSTRAINT `transactiondetail_ibfk_1` FOREIGN KEY (`TransactionID`) REFERENCES `transactionheader` (`TransactionID`),
-  ADD CONSTRAINT `transactiondetail_ibfk_2` FOREIGN KEY (`PC_ID`) REFERENCES `pc` (`PC_ID`);
+  ADD CONSTRAINT `transactiondetail_ibfk_1` FOREIGN KEY (`TransactionID`) REFERENCES `transactionheader` (`TransactionID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `transactiondetail_ibfk_2` FOREIGN KEY (`PC_ID`) REFERENCES `pc` (`PC_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `transactionheader`
 --
 ALTER TABLE `transactionheader`
-  ADD CONSTRAINT `transactionheader_ibfk_1` FOREIGN KEY (`StaffID`) REFERENCES `user` (`UserID`);
+  ADD CONSTRAINT `transactionheader_ibfk_1` FOREIGN KEY (`StaffID`) REFERENCES `user` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
