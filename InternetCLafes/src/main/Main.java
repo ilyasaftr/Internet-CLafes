@@ -3,7 +3,7 @@ package main;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import view.ViewAllReport;
+import view.ViewAllStaff;
 
 public class Main extends Application {
 	/*
@@ -48,7 +48,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		stage = primaryStage;
-		Main.changeScene(new ViewAllReport().initPage());
+		Main.changeScene(new ViewAllStaff().initPage());
 
 		stage.setTitle("Register Page");
 		stage.show();

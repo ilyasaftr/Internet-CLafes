@@ -12,7 +12,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -33,10 +32,8 @@ public class ViewAllReport {
 
 		ScrollPane sp;
 		
-		Region region;
-
 		TableView<Report> reportTable;
-		TableColumn<Report, Integer> reportIDCol, pcIDCol, userIDCol;
+		TableColumn<Report, Integer> reportIDCol, pcIDCol;
 		TableColumn<Report, String> userRoleCol, reportDateCol, reportNoteCol;
 	}
 
@@ -67,12 +64,11 @@ public class ViewAllReport {
 	private void setStyle(ViewAllReportVar components) {
 		
 		// atur ukuran lebar setiap kolom menggunakan dynamic binding
-		components.pcIDCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(1));
+		components.pcIDCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(2));
 		components.reportIDCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(2));
 		components.reportDateCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(2));
 		components.reportNoteCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(12));
 		components.userRoleCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(2));
-		components.userIDCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(1));
 	}
 
 	/*
@@ -98,21 +94,18 @@ public class ViewAllReport {
 		components.reportDateCol = new TableColumn<>("Report Date");
 		components.reportNoteCol = new TableColumn<>("Report Note");
 		components.userRoleCol = new TableColumn<>("User Role");
-		components.userIDCol = new TableColumn<>("User ID");
 
 		components.reportTable.getColumns().add(components.reportIDCol);
 		components.reportTable.getColumns().add(components.pcIDCol);
 		components.reportTable.getColumns().add(components.userRoleCol);
 		components.reportTable.getColumns().add(components.reportDateCol);
 		components.reportTable.getColumns().add(components.reportNoteCol);
-		components.reportTable.getColumns().add(components.userIDCol);
 
 		components.pcIDCol.setCellValueFactory(new PropertyValueFactory<>("PC_ID"));
 		components.reportIDCol.setCellValueFactory(new PropertyValueFactory<>("Report_ID"));
 		components.reportDateCol.setCellValueFactory(new PropertyValueFactory<>("ReportDate"));
 		components.reportNoteCol.setCellValueFactory(new PropertyValueFactory<>("ReportNote"));
 		components.userRoleCol.setCellValueFactory(new PropertyValueFactory<>("UserRole"));
-		components.userIDCol.setCellValueFactory(new PropertyValueFactory<>("UserID"));
 		
 		// membuat agar reportNoteCol bisa text wrap
 		components.reportNoteCol.setCellFactory(new Callback<TableColumn<Report,String>, TableCell<Report,String>>() {

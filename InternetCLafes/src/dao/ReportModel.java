@@ -67,9 +67,8 @@ public class ReportModel {
 				Integer PC_ID = rs.getInt(3);
 				String ReportNote = rs.getString(4);
 				LocalDate ReportDate = rs.getObject(5, LocalDate.class);
-				Integer UserID = rs.getInt(6);
 
-				reportList.add(new Report(Report_ID, PC_ID, UserID, UserRole, ReportNote, ReportDate));
+				reportList.add(new Report(Report_ID, PC_ID, UserRole, ReportNote, ReportDate));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

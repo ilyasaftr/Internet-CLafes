@@ -6,6 +6,7 @@ import dao.ReportModel;
 import model.Report;
 
 public class ReportController {
+	// Report Controller menggunakan Singleton agar hanya satu instance yang terpakai di app.
 	public static volatile ReportController instance = null;
 	
 	private ReportController() {
@@ -24,12 +25,15 @@ public class ReportController {
 		return instance;
 	}
 	
+	// Akses model untuk mengakses data Report dari database
 	ReportModel reportModel = ReportModel.getInstance();
 	
+	// Method untuk mendapatkan list isinya semua data report
 	public Vector<Report> getAllReportData() {
 		return reportModel.getAllReportData();
 	}
 	
+	// Method untuk menambahkan record Report ke database melalui model
 	public void addNewReport(String UserRole, Integer PcID, String ReportNote) {
 		reportModel.addNewReport(UserRole, PcID, ReportNote);
 	}
