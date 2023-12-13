@@ -13,15 +13,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Report;
 
-public class ViewAllReport {
+public class ViewAllTransaction {
 
 	/*
-	 * ViewAllReportVar berisi semua komponen UI yang digunakan di page ViewAllReport
+	 * ViewAllTransactionVar berisi semua komponen UI yang digunakan di page ViewAllTransaction
 	 */
-	public class ViewAllReportVar{
+	public class ViewAllTransactionVar{
+		public Stage stage;
 		Scene scene;
 
 		BorderPane bp;

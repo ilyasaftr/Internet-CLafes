@@ -72,4 +72,55 @@ public class UserModel {
 
 		return userList;
 	}
+
+	public void addNewUser(String username, String password, Integer age) {
+		Connect con = Connect.getInstance();
+		
+		String query = "INSERT INTO `user`(`UserName`, `UserPassword`, `UserAge`, `UserRole`) VALUES (?, ?, ?, ?)";
+		
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setString(1, username);
+			ps.setString(2, password);
+			ps.setInt(3, age);
+			ps.setString(4, "Customer");
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public User getUserData(String username, String password) {
+		Vector<User> userList = new Vector<>();
+		
+		Connect con = Connect.getInstance();
+		String query = "SELECT * FROM `user` WHERE `UserName` = ? AND `UserPassword` = ?";
+
+		PreparedStatement ps = con.prepareStatement(query);
+		ResultSet rs;
+		
+		try {
+			ps.setString(1, username);
+			ps.setString(2, password);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Integer UserID = rs.getInt(1);
+				String UserName = rs.getString(2);
+				String UserPassword = rs.getString(3);
+				Integer UserAge = rs.getInt(4);
+				String UserRole = rs.getString(5);
+
+				userList.add(new User(UserID, UserAge, UserName, UserPassword, UserRole));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return (userList.isEmpty())? null: userList.firstElement();
+	}
 }

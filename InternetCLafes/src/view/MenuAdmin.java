@@ -1,5 +1,6 @@
 package view;
 
+import controller.PageController;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -34,5 +35,8 @@ public class MenuAdmin {
 		menuStaff.getItems().addAll(menuItemViewAllStaff);
 		menuReport.getItems().addAll(menuItemViewAllReport);
 		menuTransaction.getItems().addAll(menuItemViewAllTransaction);
+		
+		AdminController pc = PageController.getInstance();
+		
 	}
 }

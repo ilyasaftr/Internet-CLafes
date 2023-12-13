@@ -3,7 +3,7 @@ package main;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import view.ViewAllStaff;
+import view.Register;
 
 public class Main extends Application {
 	/*
@@ -48,9 +48,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		stage = primaryStage;
-		Main.changeScene(new ViewAllStaff().initPage());
+		Main.changeScene(new Register().initPage());
 
-		stage.setTitle("Register Page");
+		stage.setTitle("Internet CLafes");
 		stage.show();
 	}
 
