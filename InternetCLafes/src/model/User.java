@@ -1,10 +1,10 @@
 package model;
 
 public class User {
-	
+
 	private Integer UserID, UserAge;
 	private String UserName, UserPassword, UserRole;
-	
+
 	public User(Integer userID, Integer userAge, String userName, String userPassword, String userRole) {
 		super();
 		UserID = userID;
@@ -53,6 +53,6 @@ public class User {
 	public void setUserRole(String userRole) {
 		UserRole = userRole;
 	}
-	
-	
+
+
 }

@@ -3,7 +3,7 @@ package model;
 public class PC {
 	private Integer PC_ID;
 	private String PC_Condition;
-	
+
 	public PC(Integer pC_ID, String pC_Condition) {
 		super();
 		PC_ID = pC_ID;
@@ -25,6 +25,6 @@ public class PC {
 	public void setPC_Condition(String pC_Condition) {
 		PC_Condition = pC_Condition;
 	}
-	
-	
+
+
 }

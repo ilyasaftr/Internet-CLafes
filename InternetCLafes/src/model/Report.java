@@ -1,13 +1,18 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Report {
-	private Integer Report_ID, PC_ID;
-	private String UserRole, ReportNote, ReportDate;
-	
-	public Report(Integer report_ID, Integer pC_ID, String userRole, String reportNote, String reportDate) {
+	private Integer Report_ID, PC_ID, UserID;
+	private String UserRole, ReportNote;
+	private LocalDate ReportDate;
+
+	public Report(Integer report_ID, Integer pC_ID, Integer userID, String userRole, String reportNote,
+			LocalDate reportDate) {
 		super();
 		Report_ID = report_ID;
 		PC_ID = pC_ID;
+		UserID = userID;
 		UserRole = userRole;
 		ReportNote = reportNote;
 		ReportDate = reportDate;
@@ -29,6 +34,14 @@ public class Report {
 		PC_ID = pC_ID;
 	}
 
+	public Integer getUserID() {
+		return UserID;
+	}
+
+	public void setUserID(Integer userID) {
+		UserID = userID;
+	}
+
 	public String getUserRole() {
 		return UserRole;
 	}
@@ -45,13 +58,13 @@ public class Report {
 		ReportNote = reportNote;
 	}
 
-	public String getReportDate() {
+	public LocalDate getReportDate() {
 		return ReportDate;
 	}
 
-	public void setReportDate(String reportDate) {
+	public void setReportDate(LocalDate reportDate) {
 		ReportDate = reportDate;
-	} 
-	
-	
+	}
+
+
 }

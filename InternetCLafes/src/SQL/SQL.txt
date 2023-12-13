@@ -9,10 +9,23 @@ CREATE TABLE `User` (
     UserRole VARCHAR(255) NOT NULL
 );
 
+INSERT INTO `user` (`UserID`, `UserName`, `UserPassword`, `UserAge`, `UserRole`) VALUES
+(1, 'Christopher', 'abc123', 15, 'Customer'),
+(2, 'Anthony', 'abc123', 20, 'Operator'),
+(3, 'Administrator', 'abc123', 18, 'Admin'),
+(4, 'Blundetto', 'abc123', 20, 'Computer Technician');
+
 CREATE TABLE `PC`(
 	PC_ID INT AUTO_INCREMENT PRIMARY KEY,
 	PC_Condition VARCHAR(255) NOT NULL
 );
+
+INSERT INTO `pc` (`PC_ID`, `PC_Condition`) VALUES
+(1, 'Usable'),
+(2, 'Maintenance'),
+(3, 'Usable'),
+(4, 'Maintenance'),
+(5, 'Broken');
 
 CREATE TABLE `Job`(
 	Job_ID INT AUTO_INCREMENT PRIMARY KEY,
@@ -24,16 +37,26 @@ CREATE TABLE `Job`(
     FOREIGN KEY (`PC_ID`) REFERENCES `PC`(`PC_ID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+INSERT INTO `job` (`Job_ID`, `UserID`, `PC_ID`, `JobStatus`) VALUES
+(1, 4, 2, 'UnComplete'),
+(2, 4, 4, 'UnComplete'),
+(3, 4, 1, 'Complete'),
+(4, 4, 3, 'Complete');
+
 CREATE TABLE `Report`(
 	Report_ID INT AUTO_INCREMENT PRIMARY KEY,
     UserRole VARCHAR(255) NOT NULL,
     PC_ID INT NOT NULL,
     ReportNote TEXT NOT NULL,
     ReportDate DATE NOT NULL,
-    UserID INT NOT NULL,
     
-    FOREIGN KEY (`UserID`) REFERENCES `User`(`UserID`) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (`PC_ID`) REFERENCES `PC`(`PC_ID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+INSERT INTO `report` (`Report_ID`, `UserRole`, `PC_ID`, `ReportNote`, `ReportDate`) VALUES
+(1, 'Customer', 2, 'Failure to Power On: The PC does not respond to the power button despite being connected to a functioning power source.', '2023-11-09'),
+(2, 'Customer', 4, 'Error Messages: Upon attempting to power up the system, it displays error messages.', '2023-11-16'),
+(3, 'Operator', 5, 'Blue Screen Error: The computer screen displayed an error message, saying \"Windows has been shut down to prevent damage to your computer\".', '2023-12-01');
 
 CREATE TABLE `TransactionHeader`(
 	TransactionID INT AUTO_INCREMENT PRIMARY KEY,
@@ -43,6 +66,11 @@ CREATE TABLE `TransactionHeader`(
     
     FOREIGN KEY (`StaffID`) REFERENCES `User`(`UserID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+INSERT INTO `transactionheader` (`TransactionID`, `StaffID`, `StaffName`, `TransactionDate`) VALUES
+(1, 2, 'Anthony', '2023-11-29'),
+(2, 3, 'Administrator', '2023-12-02'),
+(3, 4, 'Blundetto', '2023-12-03');
 
 CREATE TABLE `TransactionDetail`(
     TransactionID INT NOT NULL,
@@ -56,12 +84,22 @@ CREATE TABLE `TransactionDetail`(
     PRIMARY KEY (TransactionID, PC_ID)
 );
 
+INSERT INTO `transactiondetail` (`TransactionID`, `PC_ID`, `CustomerName`, `BookedTime`) VALUES
+(1, 1, 'Christopher', '18:30:00'),
+(2, 3, 'Christopher', '17:00:00'),
+(3, 3, 'Christopher', '19:00:00');
+
 CREATE TABLE `PCBook`(
 	Book_ID INT AUTO_INCREMENT PRIMARY KEY,
     PC_ID INT NOT NULL,
     UserID INT NOT NULL,
     BookedDate DATE NOT NULL,
-    TransactionID INT NOT NULL,
     
-    FOREIGN KEY (`TransactionID`, `PC_ID`) REFERENCES `TransactionDetail`(`TransactionID`, `PC_ID`) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY (`PC_ID`) REFERENCES `PC`(`PC_ID`) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (`UserID`) REFERENCES `User`(`UserID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+INSERT INTO `pcbook` (`Book_ID`, `PC_ID`, `UserID`, `BookedDate`) VALUES
+(1, 1, 1, '2023-12-06'),
+(2, 3, 1, '2023-12-27'),
+(3, 3, 1, '2023-12-28');
