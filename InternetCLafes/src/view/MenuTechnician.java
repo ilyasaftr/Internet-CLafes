@@ -3,12 +3,28 @@ package view;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.HBox;
 
 public class MenuTechnician {
+	// menu bar khusus user dengan role Computer Technician
+	
+	public MenuBar menuBar;
+	Menu menuPC, menuJob;
+	public MenuItem menuItemViewAllPC, menuItemViewAllTechJob, menuItemCompleteJob;
 
-	MenuBar leftBar, rightBar;
-	Menu menuUser, menuPC, menuTransaction, menuJob, menuBook, menuReport;
-	MenuItem menuItemLogin, menuItemRegis, menuItemViewAllPC, menuItemBookPC, menuItemViewCustomerTransaction, menuItemMakeReport, menuItemViewJob, menuItemCompleteJob, menuItemViewPCBookedData, menuItemCancelBook, menuItemAssignUserToPC, menuItemViewAllStaff, menuItemView;
-	HBox menus;
+	public void initialize() {
+		menuBar = new MenuBar();
+
+		menuPC = new Menu("PC");
+		menuJob = new Menu("Technician Job");
+		
+		menuBar.getMenus().addAll(menuPC, menuJob);
+
+		menuItemViewAllPC = new MenuItem("View All PCs");
+		menuItemViewAllTechJob = new MenuItem("View All Technician Jobs");
+		menuItemCompleteJob = new MenuItem("Complete Job");
+		
+		menuPC.getItems().addAll(menuItemViewAllPC);
+		menuJob.getItems().addAll(menuItemViewAllTechJob, menuItemCompleteJob);
+		
+	}
 }

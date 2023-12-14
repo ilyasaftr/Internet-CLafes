@@ -16,6 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 public class Login {
+	// Halaman untuk user melakukan login
 	public class LoginVar{
 		Scene scene;
 		
@@ -33,6 +34,7 @@ public class Login {
 		public Alert alert;
 	}
 	
+	// init semua komponen UI
 	private void initialize(LoginVar lv) {
 		lv.bp = new BorderPane();
 		lv.gp = new GridPane();
@@ -77,19 +79,23 @@ public class Login {
 		lv.hb.setSpacing(20);
 	}
 	
+	// init alert error
 	private void initAlert(LoginVar lv) {
 		lv.alert = new Alert(AlertType.ERROR);
 		lv.alert.titleProperty().set("Error");
 	}
 	
+	// init handler event
 	private void addHandlers(LoginVar lv) {
+		// atur logika login
 		UserController uc = UserController.getInstance();
 		uc.addLoginHandlers(lv);
 		
+		// atur logika tombol redirect register
 		PageController pc = PageController.getInstance();
 		pc.changePageToRegister(lv);
 	}
-	
+
 	public Scene initPage() {
 		LoginVar components = new LoginVar();
 		initialize(components);

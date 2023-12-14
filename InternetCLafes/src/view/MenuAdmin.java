@@ -1,13 +1,14 @@
 package view;
 
-import controller.PageController;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
 public class MenuAdmin {
 
-	MenuBar menuBar;
+	// menu bar khusus user dengan role Admin
+	
+	public MenuBar menuBar;
 	Menu menuPC, menuTransaction, menuJob, menuStaff, menuReport;
 	public MenuItem menuItemViewAllPC, menuItemAddPC, menuItemViewAllTransaction, menuItemViewAllReport, menuItemViewAllStaff, menuItemViewAllTechJob, menuItemAddTechJob;
 
@@ -35,8 +36,5 @@ public class MenuAdmin {
 		menuStaff.getItems().addAll(menuItemViewAllStaff);
 		menuReport.getItems().addAll(menuItemViewAllReport);
 		menuTransaction.getItems().addAll(menuItemViewAllTransaction);
-		
-		AdminController pc = PageController.getInstance();
-		
 	}
 }

@@ -5,7 +5,10 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
 public class MenuCustomer {
-	MenuBar menuBar;
+	
+	// menu bar khusus user dengan role Customer
+	
+	public MenuBar menuBar;
 	Menu menuPC, menuTransaction, menuBook, menuReport;
 	public MenuItem menuItemViewAllPC, menuItemBookPC, menuItemViewCustomerTransaction, menuItemMakeReport;
 

@@ -29,6 +29,7 @@ public class UserModel {
 		return instance;
 	}
 
+	// untuk update user role ke database
 	public void changeUserRole(Integer userID, String newRole) {
 		Connect con = Connect.getInstance();
 		
@@ -48,6 +49,7 @@ public class UserModel {
 		}
 	}
 
+	// untuk mendapatkan list berisi data semua user yang terdaftar di database
 	public Vector<User> getAllUserData() {
 		Vector<User> userList = new Vector<>();
 
@@ -73,6 +75,7 @@ public class UserModel {
 		return userList;
 	}
 
+	// untuk meng-insert user baru ke database
 	public void addNewUser(String username, String password, Integer age) {
 		Connect con = Connect.getInstance();
 		
@@ -84,6 +87,8 @@ public class UserModel {
 			ps.setString(1, username);
 			ps.setString(2, password);
 			ps.setInt(3, age);
+			
+			// Customer sebagai role default
 			ps.setString(4, "Customer");
 			
 			ps.executeUpdate();
@@ -93,10 +98,13 @@ public class UserModel {
 		}
 	}
 
+	// Digunakan untuk mendapatkan data user dengan username dan password yang diketahui
 	public User getUserData(String username, String password) {
 		Vector<User> userList = new Vector<>();
 		
 		Connect con = Connect.getInstance();
+		
+		// untuk filtering data User berdasarkan username dan password
 		String query = "SELECT * FROM `user` WHERE `UserName` = ? AND `UserPassword` = ?";
 
 		PreparedStatement ps = con.prepareStatement(query);
@@ -121,6 +129,7 @@ public class UserModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return (userList.isEmpty())? null: userList.firstElement();
 	}
 }

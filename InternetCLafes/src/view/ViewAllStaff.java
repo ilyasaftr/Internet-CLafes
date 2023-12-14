@@ -2,6 +2,7 @@ package view;
 
 import java.util.Vector;
 
+import controller.AdminController;
 import controller.UserController;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -111,9 +112,10 @@ public class ViewAllStaff {
 		
 		components.gp.setHgap(10);
 		components.gp.setVgap(10);
+		components.gp.setPadding(new Insets(10));
+		VBox.setMargin(components.btnChangeRole, new Insets(10));
 		
 		components.vb.setSpacing(30);
-		components.bp.setPadding(new Insets(10));
 	}
 
 	/*
@@ -156,7 +158,7 @@ public class ViewAllStaff {
 			}
 		});
 		
-		// membuat agar userRoleCol bisa text wrap
+		// membuat agar kolom bisa text wrap
 		components.userPasswordCol.setCellFactory(new Callback<TableColumn<User,String>, TableCell<User,String>>() {
 			
 			@Override
@@ -178,7 +180,7 @@ public class ViewAllStaff {
 	/*
 	 * initPage akan dipanggil oleh changeScene pada PageController untuk menggantikan isi dari window / scene menjadi current page.
 	 */
-	public Scene initPage() {
+	public Scene initPage(String role) {
 		ViewAllStaffVar components = new ViewAllStaffVar();
 		initialize(components);
 		initializeAlert(components);
@@ -187,10 +189,13 @@ public class ViewAllStaff {
 		
 		UserController uc = UserController.getInstance();
 		uc.addChangeRoleHandler(components);
+		
+		components.bp.setTop(AdminController.instance.menuAdmin.menuBar);
 
 		return components.scene;
 	}
 	
+	// inisialisasi alert baik itu kalau ga ada staff yang di-select atau kalau data invalid
 	public void initializeAlert(ViewAllStaffVar components) {
 		components.noRowAlert = new Alert(AlertType.ERROR);
 		components.noRowAlert.setTitle("Error");

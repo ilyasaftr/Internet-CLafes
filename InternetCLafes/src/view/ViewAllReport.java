@@ -2,6 +2,7 @@ package view;
 
 import java.util.Vector;
 
+import controller.AdminController;
 import controller.ReportController;
 import javafx.scene.Scene;
 import javafx.scene.control.Control;
@@ -139,10 +140,12 @@ public class ViewAllReport {
 	/*
 	 * initPage akan dipanggil oleh changeScene pada PageController untuk menggantikan isi dari window / scene menjadi current page.
 	 */
-	public Scene initPage() {
+	public Scene initPage(String role) {
 		ViewAllReportVar components = new ViewAllReportVar();
 		initialize(components);
 		setStyle(components);
+		
+		components.bp.setTop(AdminController.getInstance().menuAdmin.menuBar);
 
 		return components.scene;
 	}

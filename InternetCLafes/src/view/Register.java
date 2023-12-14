@@ -17,6 +17,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 public class Register {
+	// Page untuk melakukan register bagi user
+	// Landing page dari seluruh app
+	
 	public class RegisterVar{
 		Scene scene;
 		
@@ -35,6 +38,7 @@ public class Register {
 		public Alert alert;
 	}
 	
+	// Init UI app
 	private void initialize(RegisterVar rv) {
 		rv.bp = new BorderPane();
 		rv.gp = new GridPane();
@@ -74,6 +78,7 @@ public class Register {
 		rv.scene = new Scene(rv.bp);
 	}
 	
+	// atur styling dari page
 	private void setStyle(RegisterVar rv) {
 		BorderPane.setAlignment(rv.TitleLbl, Pos.CENTER);
 		BorderPane.setMargin(rv.TitleLbl, new Insets(30, 0, 60, 0));
@@ -88,15 +93,19 @@ public class Register {
 		rv.hb.setSpacing(20);
 	}
 	
+	// init alert error yang muncul nantinya
 	private void initAlert(RegisterVar rv) {
 		rv.alert = new Alert(AlertType.ERROR);
 		rv.alert.titleProperty().set("Error");
 	}
 	
+	// atur event handler dari register page
 	private void addHandlers(RegisterVar rv) {
+		// atur logika register
 		UserController uc = UserController.getInstance();
 		uc.addRegisterHandlers(rv);
 		
+		// atur logika redirect ke login page
 		PageController pc = PageController.getInstance();
 		pc.changePageToLogin(rv);
 	}

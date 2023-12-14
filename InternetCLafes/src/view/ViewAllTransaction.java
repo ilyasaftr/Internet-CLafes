@@ -2,6 +2,7 @@ package view;
 
 import java.util.Vector;
 
+import controller.PCController;
 import controller.ReportController;
 import javafx.scene.Scene;
 import javafx.scene.control.Control;
@@ -15,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import model.PC;
 import model.Report;
 
 public class ViewAllTransaction {
@@ -22,7 +24,7 @@ public class ViewAllTransaction {
 	/*
 	 * ViewAllTransactionVar berisi semua komponen UI yang digunakan di page ViewAllTransaction
 	 */
-	public class ViewAllTransactionVar{
+	public class ViewAllPCVar{
 		public Stage stage;
 		Scene scene;
 
@@ -32,17 +34,17 @@ public class ViewAllTransaction {
 
 		ScrollPane sp;
 		
-		TableView<Report> reportTable;
-		TableColumn<Report, Integer> reportIDCol, pcIDCol;
-		TableColumn<Report, String> userRoleCol, reportDateCol, reportNoteCol;
+		TableView<PC> pcTable;
+		TableColumn<PC, Integer> pcIDCol;
+		TableColumn<PC, String> pcCondCol;
 	}
 
 	/*
 	 * Initialize akan menginisialisasi semua komponen UI yang terdapat di page ini, termasuk menginisialisasi tabel dan mengatur style dari page.
 	 */
-	private void initialize(ViewAllReportVar components) {
+	private void initialize(ViewAllPCVar components) {
 
-		components.titleLbl = new Label("View All Reports");
+		components.titleLbl = new Label("View All PCs");
 
 		initializeTable(components);
 		getData(components);
@@ -74,9 +76,9 @@ public class ViewAllTransaction {
 	/*
 	 * getData digunakan untuk mendapatkan data report semua yang akan dimasukkan ke tabel
 	 */
-	private void getData(ViewAllReportVar components) {
-		ReportController reportControl = ReportController.getInstance();
-		Vector<Report> reportList = reportControl.getAllReportData();
+	private void getData(ViewAllPCVar components) {
+		PCController pcControl = PCController.getInstance();
+		Vector<PC> pcList = reportControl.getAllReportData();
 
 		for(Report report : reportList) {
 			components.reportTable.getItems().add(report);
