@@ -97,4 +97,39 @@ public class PCModel {
 			e.printStackTrace();
 		}
 	}
+
+	public void updatePCCondition(int PcID, String Condition) {
+		Connect con = Connect.getInstance();
+		
+		String query = "UPDATE `pc` SET `PC_Condition`=? WHERE `PC_ID`=?";
+		
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setString(1, Condition);
+			ps.setInt(2, PcID);
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void deletePC(int PcID) {
+		Connect con = Connect.getInstance();
+		
+		String query = "DELETE FROM `pc` WHERE `PC_ID` = ?";
+		
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setInt(1, PcID);
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

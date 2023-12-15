@@ -43,6 +43,8 @@ public class ViewAllPC {
 		TableColumn<PC, String> PC_ConditionCol;
 		
 		public Alert alert;
+		
+		public Vector<PC> pcList;
 	}
 
 	/*
@@ -53,7 +55,6 @@ public class ViewAllPC {
 		components.titleLbl = new Label("View All PCs");
 
 		initializeTable(components);
-		getData(components);
 
 		components.sp = new ScrollPane();
 		components.sp.setContent(components.pcTable);
@@ -98,18 +99,6 @@ public class ViewAllPC {
 	}
 
 	/*
-	 * getData digunakan untuk mendapatkan data pc semua yang akan dimasukkan ke tabel
-	 */
-	private void getData(ViewAllPCVar components) {
-		PCController pcControl = PCController.getInstance();
-		Vector<PC> pcList = pcControl.getAllPCData();
-
-		for(PC pc : pcList) {
-			components.pcTable.getItems().add(pc);
-		}
-	}
-
-	/*
 	 * initializeTable digunakan untuk menginisialisasi tabel, kolom-kolomnya juga
 	 */
 	private void initializeTable(ViewAllPCVar components) {
@@ -130,14 +119,16 @@ public class ViewAllPC {
 	 * initPage akan dipanggil oleh changeScene pada PageController untuk menggantikan isi dari window / scene menjadi current page.
 	 */
 	public Scene initPage(String role) {
+		PCController pcCont = PCController.getInstance();
+		
 		ViewAllPCVar components = new ViewAllPCVar();
 		initialize(components);
+		pcCont.getData(components);
 		setStyle(components);
 		initializeAlert(components);
 		
 		components.bp.setTop(AdminController.getInstance().menuAdmin.menuBar);
 		
-		PCController pcCont = PCController.getInstance();
 		pcCont.addViewPCDetailHandler(components);
 		pcCont.addCreatePCHandler(components);
 

@@ -3,14 +3,18 @@ package view;
 import controller.PCController;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.PC;
+import view.ViewAllPC.ViewAllPCVar;
 
 public class ViewPCDetail {
 	/*
@@ -22,12 +26,14 @@ public class ViewPCDetail {
 
 		VBox vb;
 		GridPane gp;
+		HBox hb;
 
 		Label titleLbl, pcIdLbl, pcCondLbl;
-		TextField pcIdTf;
-		ComboBox<String> pcCondTf;
+		public TextField pcIdTf;
+		public ComboBox<String> pcCondTf;
 		
 		public Button btnUpdate, btnDelete;
+		public Alert alert;
 
 		PC pc;
 	}
@@ -52,8 +58,13 @@ public class ViewPCDetail {
 		components.gp.add(components.pcIdTf, 1, 0);
 		components.gp.add(components.pcCondTf, 1, 1);
 		
+		components.btnUpdate = new Button("Update");
+		components.btnDelete = new Button("Delete");
+		components.hb = new HBox();
+		components.hb.getChildren().addAll(components.btnUpdate, components.btnDelete);
+		
 		components.vb = new VBox();
-		components.vb.getChildren().addAll(components.titleLbl, components.gp);
+		components.vb.getChildren().addAll(components.titleLbl, components.gp, components.hb);
 
 		components.stage = new Stage();
 		components.scene = new Scene(components.vb);
@@ -81,18 +92,30 @@ public class ViewPCDetail {
 		
 		components.pcIdTf.setEditable(false);
 		components.pcIdTf.setStyle("-fx-background-color: #d3d3d3;");
+		
+		components.hb.setSpacing(30);
 	}
 	
 	/*
 	 * initPage akan dipanggil oleh changeScene pada PageController untuk menggantikan isi dari window / scene menjadi current page.
 	 */
-	public void initPage(String role, Integer pcId) {
+	public void initPage(String role, Integer pcId, ViewAllPCVar viewAllPCVar) {
+		PCController pcCont = PCController.getInstance();
 		ViewPCDetailVar components = new ViewPCDetailVar();
 		
 		initialize(components);
 		setStyle(components);
 		getData(pcId, components);
+		initializeAlert(components);
+		
+		pcCont.addUpdatePCHandler(components, viewAllPCVar);
+		pcCont.addDeletePCHandler(components, viewAllPCVar);
 		
 		components.stage.show();
+	}
+	
+	private void initializeAlert(ViewPCDetailVar components) {
+		components.alert = new Alert(AlertType.ERROR);
+		components.alert.setTitle("Error");
 	}
 }

@@ -9,6 +9,7 @@ import view.ViewAllTechnician;
 import view.ViewAllTransaction;
 import view.ViewPCDetail;
 import view.ViewTransactionDetail;
+import view.ViewAllPC.ViewAllPCVar;
 
 public class AdminController {
 	// Class ini dianggap sebagai Admin Menu Controller, dia yang mengatur event handler dan validasi dari bagian Menu dari role Admin
@@ -60,8 +61,8 @@ public class AdminController {
 		new ViewTransactionDetail().initPage(role, transID);
 	}
 	
-	public void createPCDetailWindow(Integer pcID) {
-		new ViewPCDetail().initPage(role, pcID);
+	public void createPCDetailWindow(Integer pcID, ViewAllPCVar components) {
+		new ViewPCDetail().initPage(role, pcID, components);
 	}
 	
 }
