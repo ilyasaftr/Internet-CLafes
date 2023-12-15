@@ -2,8 +2,12 @@ package controller;
 
 import main.Main;
 import view.MenuAdmin;
+import view.ViewAllPC;
 import view.ViewAllReport;
 import view.ViewAllStaff;
+import view.ViewAllTechnician;
+import view.ViewAllTransaction;
+import view.ViewTransactionDetail;
 
 public class AdminController {
 	// Class ini dianggap sebagai Admin Menu Controller, dia yang mengatur event handler dan validasi dari bagian Menu dari role Admin
@@ -38,7 +42,7 @@ public class AdminController {
 			Main.changeScene(null);
 		});
 		ma.menuItemViewAllPC.setOnAction(e -> {
-			Main.changeScene(null);
+			Main.changeScene(new ViewAllPC().initPage(role));
 		});
 		ma.menuItemViewAllReport.setOnAction(e -> {
 			Main.changeScene(new ViewAllReport().initPage(role));
@@ -47,12 +51,15 @@ public class AdminController {
 			Main.changeScene(new ViewAllStaff().initPage(role));
 		});
 		ma.menuItemViewAllTechJob.setOnAction(e -> {
-			Main.changeScene(null);
+			Main.changeScene(new ViewAllTechnician().initPage(role));
 		});
 		ma.menuItemViewAllTransaction.setOnAction(e -> {
-			Main.changeScene(null);
+			Main.changeScene(new ViewAllTransaction().initPage(role));
 		});
 	}
 	
+	public void createTransactionDetailWindow(Integer transID) {
+		new ViewTransactionDetail().initPage(role, transID);
+	}
 	
 }

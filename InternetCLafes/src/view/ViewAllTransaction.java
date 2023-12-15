@@ -1,31 +1,26 @@
 package view;
 
+import java.time.LocalDate;
 import java.util.Vector;
 
-import controller.PCController;
-import controller.ReportController;
+import controller.AdminController;
+import controller.TransactionController;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.util.Callback;
-import model.PC;
-import model.Report;
+import model.TransactionHeader;
 
 public class ViewAllTransaction {
 
 	/*
 	 * ViewAllTransactionVar berisi semua komponen UI yang digunakan di page ViewAllTransaction
 	 */
-	public class ViewAllPCVar{
-		public Stage stage;
+	public class ViewAllTransactionVar{
 		Scene scene;
 
 		BorderPane bp;
@@ -34,23 +29,25 @@ public class ViewAllTransaction {
 
 		ScrollPane sp;
 		
-		TableView<PC> pcTable;
-		TableColumn<PC, Integer> pcIDCol;
-		TableColumn<PC, String> pcCondCol;
+		public TableView<TransactionHeader> transactionTable;
+		TableColumn<TransactionHeader, Integer> TransactionIDCol;
+		TableColumn<TransactionHeader, Integer> StaffIDCol;
+		TableColumn<TransactionHeader, LocalDate> TransactionDateCol;
+		TableColumn<TransactionHeader, String> StaffNameCol;
 	}
 
 	/*
 	 * Initialize akan menginisialisasi semua komponen UI yang terdapat di page ini, termasuk menginisialisasi tabel dan mengatur style dari page.
 	 */
-	private void initialize(ViewAllPCVar components) {
+	private void initialize(ViewAllTransactionVar components) {
 
-		components.titleLbl = new Label("View All PCs");
+		components.titleLbl = new Label("View All Transactions");
 
 		initializeTable(components);
 		getData(components);
 
 		components.sp = new ScrollPane();
-		components.sp.setContent(components.reportTable);
+		components.sp.setContent(components.transactionTable);
 		components.sp.setFitToWidth(true);
 
 		components.bp = new BorderPane();
@@ -63,90 +60,63 @@ public class ViewAllTransaction {
 	/*
 	 * setStyle digunakan untuk menambahkan styling ke komponen-komponen UI page.
 	 */
-	private void setStyle(ViewAllReportVar components) {
+	private void setStyle(ViewAllTransactionVar components) {
+		components.titleLbl.setPadding(new Insets(20));
 		
-		// atur ukuran lebar setiap kolom menggunakan dynamic binding
-		components.pcIDCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(2));
-		components.reportIDCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(2));
-		components.reportDateCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(2));
-		components.reportNoteCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(12));
-		components.userRoleCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(2));
+		// atur ukuran lebar setiap kolom menggunakan binding
+		components.TransactionIDCol.prefWidthProperty().bind(components.transactionTable.widthProperty().divide(8).multiply(1));
+		components.StaffIDCol.prefWidthProperty().bind(components.transactionTable.widthProperty().divide(8).multiply(1));
+		components.TransactionDateCol.prefWidthProperty().bind(components.transactionTable.widthProperty().divide(8).multiply(3));
+		components.StaffNameCol.prefWidthProperty().bind(components.transactionTable.widthProperty().divide(8).multiply(3));
 	}
 
 	/*
 	 * getData digunakan untuk mendapatkan data report semua yang akan dimasukkan ke tabel
 	 */
-	private void getData(ViewAllPCVar components) {
-		PCController pcControl = PCController.getInstance();
-		Vector<PC> pcList = reportControl.getAllReportData();
+	private void getData(ViewAllTransactionVar components) {
+		TransactionController transControl = TransactionController.getInstance();
+		Vector<TransactionHeader> transList = transControl.getAllTransactionHeaderData();
 
-		for(Report report : reportList) {
-			components.reportTable.getItems().add(report);
+		for(TransactionHeader trans : transList) {
+			components.transactionTable.getItems().add(trans);
 		}
 	}
 
 	/*
-	 * initializeTable digunakan untuk menginisialisasi tabel report, kolom-kolomnya juga
+	 * initializeTable digunakan untuk menginisialisasi tabel, kolom-kolomnya juga
 	 */
-	private void initializeTable(ViewAllReportVar components) {
-		components.reportTable = new TableView<>();
+	private void initializeTable(ViewAllTransactionVar components) {
+		components.transactionTable = new TableView<>();
 
-		components.pcIDCol = new TableColumn<>("PC ID");
-		components.reportIDCol = new TableColumn<>("Report ID");
-		components.reportDateCol = new TableColumn<>("Report Date");
-		components.reportNoteCol = new TableColumn<>("Report Note");
-		components.userRoleCol = new TableColumn<>("User Role");
+		components.TransactionIDCol = new TableColumn<>("Transaction ID");
+		components.StaffIDCol = new TableColumn<>("Staff ID");
+		components.StaffNameCol = new TableColumn<>("Staff Name");
+		components.TransactionDateCol = new TableColumn<>("Transaction Date");
 
-		components.reportTable.getColumns().add(components.reportIDCol);
-		components.reportTable.getColumns().add(components.pcIDCol);
-		components.reportTable.getColumns().add(components.userRoleCol);
-		components.reportTable.getColumns().add(components.reportDateCol);
-		components.reportTable.getColumns().add(components.reportNoteCol);
-
-		components.pcIDCol.setCellValueFactory(new PropertyValueFactory<>("PC_ID"));
-		components.reportIDCol.setCellValueFactory(new PropertyValueFactory<>("Report_ID"));
-		components.reportDateCol.setCellValueFactory(new PropertyValueFactory<>("ReportDate"));
-		components.reportNoteCol.setCellValueFactory(new PropertyValueFactory<>("ReportNote"));
-		components.userRoleCol.setCellValueFactory(new PropertyValueFactory<>("UserRole"));
+		components.transactionTable.getColumns().add(components.TransactionIDCol);
+		components.transactionTable.getColumns().add(components.StaffIDCol);
+		components.transactionTable.getColumns().add(components.StaffNameCol);
+		components.transactionTable.getColumns().add(components.TransactionDateCol);
 		
-		// membuat agar reportNoteCol bisa text wrap
-		components.reportNoteCol.setCellFactory(new Callback<TableColumn<Report,String>, TableCell<Report,String>>() {
-			
-			@Override
-			public TableCell<Report, String> call(TableColumn<Report, String> param) {
-				TableCell<Report, String> cell = new TableCell<>();
-			    Text text = new Text();
-			    cell.setGraphic(text);
-			    cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
-			    text.wrappingWidthProperty().bind(components.reportNoteCol.widthProperty());
-			    text.textProperty().bind(cell.itemProperty());
-			    return cell;
-			}
-		});
+		components.TransactionIDCol.setCellValueFactory(new PropertyValueFactory<>("TransactionID"));
+		components.StaffIDCol.setCellValueFactory(new PropertyValueFactory<>("StaffID"));
+		components.StaffNameCol.setCellValueFactory(new PropertyValueFactory<>("StaffName"));
+		components.TransactionDateCol.setCellValueFactory(new PropertyValueFactory<>("TransactionDate"));
 		
-		// membuat agar userRoleCol bisa text wrap
-		components.userRoleCol.setCellFactory(new Callback<TableColumn<Report,String>, TableCell<Report,String>>() {
-			
-			@Override
-			public TableCell<Report, String> call(TableColumn<Report, String> param) {
-				TableCell<Report, String> cell = new TableCell<>();
-			    Text text = new Text();
-			    cell.setGraphic(text);
-			    cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
-			    text.wrappingWidthProperty().bind(components.userRoleCol.widthProperty());
-			    text.textProperty().bind(cell.itemProperty());
-			    return cell;
-			}
-		});
 	}
 
 	/*
 	 * initPage akan dipanggil oleh changeScene pada PageController untuk menggantikan isi dari window / scene menjadi current page.
 	 */
-	public Scene initPage() {
-		ViewAllReportVar components = new ViewAllReportVar();
+	public Scene initPage(String role) {
+		ViewAllTransactionVar components = new ViewAllTransactionVar();
 		initialize(components);
 		setStyle(components);
+		
+		components.bp.setTop(AdminController.getInstance().menuAdmin.menuBar);
+		
+		TransactionController tc = TransactionController.getInstance();
+		tc.addViewTransactionDetailHandler(components);
 
 		return components.scene;
 	}

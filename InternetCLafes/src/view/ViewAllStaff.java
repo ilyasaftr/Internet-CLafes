@@ -100,7 +100,7 @@ public class ViewAllStaff {
 	 */
 	private void setStyle(ViewAllStaffVar components) {
 		
-		// atur ukuran lebar setiap kolom menggunakan dynamic binding
+		// atur ukuran lebar setiap kolom menggunakan binding
 		components.userIDCol.prefWidthProperty().bind(components.staffTable.widthProperty().divide(10).multiply(2));
 		components.userNameCol.prefWidthProperty().bind(components.staffTable.widthProperty().divide(10).multiply(2));
 		components.userPasswordCol.prefWidthProperty().bind(components.staffTable.widthProperty().divide(10).multiply(2));

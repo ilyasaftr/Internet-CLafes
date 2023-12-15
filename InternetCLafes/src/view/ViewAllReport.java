@@ -62,7 +62,7 @@ public class ViewAllReport {
 	 */
 	private void setStyle(ViewAllReportVar components) {
 		
-		// atur ukuran lebar setiap kolom menggunakan dynamic binding
+		// atur ukuran lebar setiap kolom menggunakan binding
 		components.pcIDCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(2));
 		components.reportIDCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(2));
 		components.reportDateCol.prefWidthProperty().bind(components.reportTable.widthProperty().divide(20).multiply(2));

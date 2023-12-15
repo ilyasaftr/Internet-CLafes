@@ -1,11 +1,14 @@
 package main;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import view.Register;
 
-public class Main extends Application {
+public class Main extends Application implements EventHandler<WindowEvent>  {
 	/*
 	 * Main class digunakan sebagai class inisialisasi program.
 	 *
@@ -52,6 +55,12 @@ public class Main extends Application {
 
 		stage.setTitle("Internet CLafes");
 		stage.show();
+	}
+
+	// kalau close di Main stage, semua window yang bersangkutan dengan app akan close
+	@Override
+	public void handle(WindowEvent event) {
+		Platform.exit();
 	}
 
 }

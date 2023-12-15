@@ -86,6 +86,7 @@ public class Register {
 		rv.gp.setPadding(new Insets(20));
 		rv.gp.setHgap(20);
 		rv.gp.setVgap(40);
+		rv.gp.setAlignment(Pos.CENTER);
 		rv.UserAgeSpinner.setEditable(true);
 		BorderPane.setAlignment(rv.hb, Pos.CENTER);
 		rv.hb.setPadding(new Insets(20));

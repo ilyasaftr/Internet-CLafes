@@ -73,6 +73,7 @@ public class Login {
 		lv.gp.setPadding(new Insets(20));
 		lv.gp.setHgap(20);
 		lv.gp.setVgap(40);
+		lv.gp.setAlignment(Pos.CENTER);
 		BorderPane.setAlignment(lv.hb, Pos.CENTER);
 		lv.hb.setPadding(new Insets(20));
 		lv.hb.setAlignment(Pos.CENTER);
