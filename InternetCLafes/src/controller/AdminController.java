@@ -7,6 +7,7 @@ import view.ViewAllReport;
 import view.ViewAllStaff;
 import view.ViewAllTechnician;
 import view.ViewAllTransaction;
+import view.ViewPCDetail;
 import view.ViewTransactionDetail;
 
 public class AdminController {
@@ -35,9 +36,6 @@ public class AdminController {
 	}
 
 	private void addHandlers(MenuAdmin ma) {
-		ma.menuItemAddPC.setOnAction(e -> {
-			Main.changeScene(null);
-		});
 		ma.menuItemAddTechJob.setOnAction(e -> {
 			Main.changeScene(null);
 		});
@@ -60,6 +58,10 @@ public class AdminController {
 	
 	public void createTransactionDetailWindow(Integer transID) {
 		new ViewTransactionDetail().initPage(role, transID);
+	}
+	
+	public void createPCDetailWindow(Integer pcID) {
+		new ViewPCDetail().initPage(role, pcID);
 	}
 	
 }

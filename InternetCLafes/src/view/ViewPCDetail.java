@@ -1,18 +1,12 @@
 package view;
 
-import java.time.LocalTime;
-import java.util.Vector;
-
-import controller.TransactionController;
+import controller.PCController;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -32,6 +26,8 @@ public class ViewPCDetail {
 		Label titleLbl, pcIdLbl, pcCondLbl;
 		TextField pcIdTf;
 		ComboBox<String> pcCondTf;
+		
+		public Button btnUpdate, btnDelete;
 
 		PC pc;
 	}
@@ -43,15 +39,12 @@ public class ViewPCDetail {
 
 		components.titleLbl = new Label("View PC Details");
 
-		initializeTable(components);
-		getData(components);
-		
 		components.pcIdLbl = new Label("PC ID:");
 		components.pcCondLbl = new Label("PC Condition:");
 		
 		components.pcIdTf = new TextField();
 		components.pcCondTf = new ComboBox<>();
-		components.pcCondTf.getItems().addAll("Usable", "Maintenance", "");
+		components.pcCondTf.getItems().addAll("Usable", "Maintenance", "Broken");
 		
 		components.gp = new GridPane();
 		components.gp.add(components.pcIdLbl, 0, 0);
@@ -68,35 +61,14 @@ public class ViewPCDetail {
 	}
 
 	// getdata untuk mendapatkan data dari tabel
-	private void getData(ViewPCDetailVar components) {
-		TransactionController transControl = TransactionController.getInstance();
-		Vector<TransactionDetail> transList = transControl.getAllTransactionDetail(components.transactionID);
-
-		for(TransactionDetail trans : transList) {
-			components.transactionTable.getItems().add(trans);
-		}
-	}
-
-	// initializetable untuk membuat tabel dan kolom-kolomnya serta data yang diproses dalamnya
-	private void initializeTable(ViewPCDetailVar components) {
-		components.transactionTable = new TableView<>();
-
-		components.TransactionIDCol = new TableColumn<>("Transaction ID");
-		components.PC_IDCol = new TableColumn<>("PC ID");
-		components.CustomerNameCol = new TableColumn<>("Customer Name");
-		components.BookedTimeCol = new TableColumn<>("Booked Time");
-
-		components.transactionTable.getColumns().add(components.TransactionIDCol);
-		components.transactionTable.getColumns().add(components.PC_IDCol);
-		components.transactionTable.getColumns().add(components.CustomerNameCol);
-		components.transactionTable.getColumns().add(components.BookedTimeCol);
+	private void getData(Integer pcID, ViewPCDetailVar components) {
+		PCController pcCont = PCController.getInstance();
+		components.pc = pcCont.getPCDetail(pcID);
 		
-		components.TransactionIDCol.setCellValueFactory(new PropertyValueFactory<>("TransactionID"));
-		components.PC_IDCol.setCellValueFactory(new PropertyValueFactory<>("PC_ID"));
-		components.CustomerNameCol.setCellValueFactory(new PropertyValueFactory<>("CustomerName"));
-		components.BookedTimeCol.setCellValueFactory(new PropertyValueFactory<>("BookedTime"));
+		components.pcIdTf.setText(components.pc.getPC_ID().toString());
+		components.pcCondTf.getSelectionModel().select(components.pc.getPC_Condition());
 	}
-	
+
 	/*
 	 * setStyle digunakan untuk menambahkan styling ke komponen-komponen UI page.
 	 */
@@ -106,21 +78,21 @@ public class ViewPCDetail {
 		
 		components.vb.setPadding(new Insets(20));
 		components.vb.setSpacing(30);
+		
+		components.pcIdTf.setEditable(false);
+		components.pcIdTf.setStyle("-fx-background-color: #d3d3d3;");
 	}
 	
 	/*
 	 * initPage akan dipanggil oleh changeScene pada PageController untuk menggantikan isi dari window / scene menjadi current page.
 	 */
-	public void initPage(String role, Integer transID) {
+	public void initPage(String role, Integer pcId) {
 		ViewPCDetailVar components = new ViewPCDetailVar();
-		
-		components.transactionID = transID;
 		
 		initialize(components);
 		setStyle(components);
+		getData(pcId, components);
 		
-		components.stage = new Stage();
-		components.stage.setScene(components.scene);
 		components.stage.show();
 	}
 }

@@ -71,7 +71,7 @@ public class ViewAllTransaction {
 	}
 
 	/*
-	 * getData digunakan untuk mendapatkan data report semua yang akan dimasukkan ke tabel
+	 * getData digunakan untuk mendapatkan data transaction semua yang akan dimasukkan ke tabel
 	 */
 	private void getData(ViewAllTransactionVar components) {
 		TransactionController transControl = TransactionController.getInstance();

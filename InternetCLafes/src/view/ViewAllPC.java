@@ -6,12 +6,18 @@ import controller.AdminController;
 import controller.PCController;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import model.PC;
 
 public class ViewAllPC {
@@ -23,13 +29,20 @@ public class ViewAllPC {
 
 		BorderPane bp;
 
-		Label titleLbl;
+		VBox vb;
+		Label titleLbl, pcIdLbl;
+		public TextField pcIdTf;
+		
+		public Button btnCreatePC;
 
 		ScrollPane sp;
+		GridPane gp;
 		
 		public TableView<PC> pcTable;
 		TableColumn<PC, Integer> PC_IDCol;
 		TableColumn<PC, String> PC_ConditionCol;
+		
+		public Alert alert;
 	}
 
 	/*
@@ -46,9 +59,22 @@ public class ViewAllPC {
 		components.sp.setContent(components.pcTable);
 		components.sp.setFitToWidth(true);
 
+		components.btnCreatePC = new Button("Add PC");
+		
+		components.pcIdLbl = new Label("PC ID:");
+		
+		components.pcIdTf = new TextField();
+		
+		components.gp = new GridPane();
+		components.gp.add(components.pcIdLbl, 0, 0);
+		components.gp.add(components.pcIdTf, 1, 0);
+		
+		components.vb = new VBox();
+		components.vb.getChildren().addAll(components.sp, components.gp, components.btnCreatePC);
+		
 		components.bp = new BorderPane();
 		components.bp.setCenter(components.titleLbl);
-		components.bp.setBottom(components.sp);
+		components.bp.setBottom(components.vb);
 
 		components.scene = new Scene(components.bp);
 	}
@@ -62,10 +88,17 @@ public class ViewAllPC {
 		// atur ukuran lebar setiap kolom menggunakan binding
 		components.PC_IDCol.prefWidthProperty().bind(components.pcTable.widthProperty().divide(2).multiply(1));
 		components.PC_ConditionCol.prefWidthProperty().bind(components.pcTable.widthProperty().divide(2).multiply(1));
+		
+		components.gp.setVgap(10);
+		components.gp.setHgap(15);
+		
+		components.vb.setPadding(new Insets(20));
+		components.vb.setSpacing(30);
+		
 	}
 
 	/*
-	 * getData digunakan untuk mendapatkan data report semua yang akan dimasukkan ke tabel
+	 * getData digunakan untuk mendapatkan data pc semua yang akan dimasukkan ke tabel
 	 */
 	private void getData(ViewAllPCVar components) {
 		PCController pcControl = PCController.getInstance();
@@ -100,9 +133,19 @@ public class ViewAllPC {
 		ViewAllPCVar components = new ViewAllPCVar();
 		initialize(components);
 		setStyle(components);
+		initializeAlert(components);
 		
 		components.bp.setTop(AdminController.getInstance().menuAdmin.menuBar);
+		
+		PCController pcCont = PCController.getInstance();
+		pcCont.addViewPCDetailHandler(components);
+		pcCont.addCreatePCHandler(components);
 
 		return components.scene;
+	}
+
+	private void initializeAlert(ViewAllPCVar components) {
+		components.alert = new Alert(AlertType.ERROR);
+		components.alert.setTitle("Error");
 	}
 }
