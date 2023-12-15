@@ -10,7 +10,7 @@ public class MenuAdmin {
 	
 	public MenuBar menuBar;
 	Menu menuPC, menuTransaction, menuJob, menuStaff, menuReport;
-	public MenuItem menuItemViewAllPC, menuItemViewAllTransaction, menuItemViewAllReport, menuItemViewAllStaff, menuItemViewAllTechJob, menuItemAddTechJob;
+	public MenuItem menuItemViewAllPC, menuItemViewAllTransaction, menuItemViewAllReport, menuItemViewAllStaff, menuItemViewAllTechJob;
 
 	public void initialize() {
 		menuBar = new MenuBar();
@@ -28,10 +28,9 @@ public class MenuAdmin {
 		menuItemViewAllReport = new MenuItem("View All Reports");
 		menuItemViewAllStaff = new MenuItem("View All Staff");
 		menuItemViewAllTechJob = new MenuItem("View All Technician Jobs");
-		menuItemAddTechJob = new MenuItem("Add Technician Job");
 		
 		menuPC.getItems().addAll(menuItemViewAllPC);
-		menuJob.getItems().addAll(menuItemAddTechJob, menuItemViewAllTechJob);
+		menuJob.getItems().addAll(menuItemViewAllTechJob);
 		menuStaff.getItems().addAll(menuItemViewAllStaff);
 		menuReport.getItems().addAll(menuItemViewAllReport);
 		menuTransaction.getItems().addAll(menuItemViewAllTransaction);

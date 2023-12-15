@@ -71,7 +71,7 @@ public class ViewPCDetail {
 		components.stage.setScene(components.scene);
 	}
 
-	// getdata untuk mendapatkan data dari tabel
+	// getdata untuk mendapatkan data pc detail dari tabel
 	private void getData(Integer pcID, ViewPCDetailVar components) {
 		PCController pcCont = PCController.getInstance();
 		components.pc = pcCont.getPCDetail(pcID);
@@ -98,6 +98,7 @@ public class ViewPCDetail {
 	
 	/*
 	 * initPage akan dipanggil oleh changeScene pada PageController untuk menggantikan isi dari window / scene menjadi current page.
+	 * Passing juga viewAllPCvar buat refresh tabel di view all pc window
 	 */
 	public void initPage(String role, Integer pcId, ViewAllPCVar viewAllPCVar) {
 		PCController pcCont = PCController.getInstance();
@@ -114,6 +115,7 @@ public class ViewPCDetail {
 		components.stage.show();
 	}
 	
+	// inisialisasi isi dari alert yang akan dimunculkan
 	private void initializeAlert(ViewPCDetailVar components) {
 		components.alert = new Alert(AlertType.ERROR);
 		components.alert.setTitle("Error");

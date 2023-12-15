@@ -14,6 +14,8 @@ import view.ViewAllPC.ViewAllPCVar;
 public class AdminController {
 	// Class ini dianggap sebagai Admin Menu Controller, dia yang mengatur event handler dan validasi dari bagian Menu dari role Admin
 	public MenuAdmin menuAdmin;
+	
+	// Role Admin
 	private final String role = "Admin";
 	
 	public static volatile AdminController instance = null;
@@ -36,12 +38,10 @@ public class AdminController {
 		addHandlers(menuAdmin);
 	}
 
+	// Menambahkan event handler onclick untuk tiap menu item
 	private void addHandlers(MenuAdmin ma) {
-		ma.menuItemAddTechJob.setOnAction(e -> {
-			Main.changeScene(null);
-		});
 		ma.menuItemViewAllPC.setOnAction(e -> {
-			Main.changeScene(new ViewAllPC().initPage(role));
+			Main.changeScene(new ViewAllPC().initPageAdmin(role));
 		});
 		ma.menuItemViewAllReport.setOnAction(e -> {
 			Main.changeScene(new ViewAllReport().initPage(role));
@@ -57,10 +57,12 @@ public class AdminController {
 		});
 	}
 	
+	// Membuat window baru khusus transaction detail
 	public void createTransactionDetailWindow(Integer transID) {
 		new ViewTransactionDetail().initPage(role, transID);
 	}
 	
+	// Membuat window baru khusus pc detail
 	public void createPCDetailWindow(Integer pcID, ViewAllPCVar components) {
 		new ViewPCDetail().initPage(role, pcID, components);
 	}

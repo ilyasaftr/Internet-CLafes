@@ -2,6 +2,7 @@ package controller;
 
 import main.Main;
 import view.MenuTechnician;
+import view.ViewAllPC;
 
 public class ComputerTechnicianController {
 	// Class ini dianggap sebagai Computer Technician Menu Controller, dia yang mengatur event handler dan validasi dari bagian Menu dari role Computer Technician
@@ -34,7 +35,7 @@ public class ComputerTechnicianController {
 			Main.changeScene(null);
 		});
 		mt.menuItemViewAllPC.setOnAction(e->{
-			Main.changeScene(null);
+			Main.changeScene(new ViewAllPC().initPage(role));
 		});
 		mt.menuItemViewAllTechJob.setOnAction(e->{
 			Main.changeScene(null);

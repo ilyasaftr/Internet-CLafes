@@ -2,6 +2,7 @@ package controller;
 
 import main.Main;
 import view.MenuOperator;
+import view.ViewAllPC;
 
 public class OperatorController {
 	// Class ini dianggap sebagai Operator Menu Controller, dia yang mengatur event handler dan validasi dari bagian Menu dari role Operator
@@ -40,7 +41,7 @@ public class OperatorController {
 			Main.changeScene(null);
 		});
 		mo.menuItemViewAllPC.setOnAction(e->{
-			Main.changeScene(null);
+			Main.changeScene(new ViewAllPC().initPage(role));
 		});
 	}
 }

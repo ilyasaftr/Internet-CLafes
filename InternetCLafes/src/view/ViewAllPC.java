@@ -3,7 +3,9 @@ package view;
 import java.util.Vector;
 
 import controller.AdminController;
+import controller.MenuController;
 import controller.PCController;
+import controller.PageController;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -59,6 +61,18 @@ public class ViewAllPC {
 		components.sp = new ScrollPane();
 		components.sp.setContent(components.pcTable);
 		components.sp.setFitToWidth(true);
+		
+		components.vb = new VBox();
+		components.vb.getChildren().addAll(components.sp);
+		
+		components.bp = new BorderPane();
+		components.bp.setCenter(components.titleLbl);
+		components.bp.setBottom(components.vb);
+
+		components.scene = new Scene(components.bp);
+	}
+	
+	private void initializeAdmin(ViewAllPCVar components) {
 
 		components.btnCreatePC = new Button("Add PC");
 		
@@ -70,14 +84,7 @@ public class ViewAllPC {
 		components.gp.add(components.pcIdLbl, 0, 0);
 		components.gp.add(components.pcIdTf, 1, 0);
 		
-		components.vb = new VBox();
-		components.vb.getChildren().addAll(components.sp, components.gp, components.btnCreatePC);
-		
-		components.bp = new BorderPane();
-		components.bp.setCenter(components.titleLbl);
-		components.bp.setBottom(components.vb);
-
-		components.scene = new Scene(components.bp);
+		components.vb.getChildren().addAll(components.gp, components.btnCreatePC);
 	}
 
 	/*
@@ -90,12 +97,14 @@ public class ViewAllPC {
 		components.PC_IDCol.prefWidthProperty().bind(components.pcTable.widthProperty().divide(2).multiply(1));
 		components.PC_ConditionCol.prefWidthProperty().bind(components.pcTable.widthProperty().divide(2).multiply(1));
 		
-		components.gp.setVgap(10);
-		components.gp.setHgap(15);
-		
 		components.vb.setPadding(new Insets(20));
 		components.vb.setSpacing(30);
 		
+	}
+
+	private void setStyleAdmin(ViewAllPCVar components) {
+		components.gp.setVgap(10);
+		components.gp.setHgap(15);
 	}
 
 	/*
@@ -118,20 +127,36 @@ public class ViewAllPC {
 	/*
 	 * initPage akan dipanggil oleh changeScene pada PageController untuk menggantikan isi dari window / scene menjadi current page.
 	 */
+	public Scene initPageAdmin(String role) {
+		PCController pcCont = PCController.getInstance();
+		MenuController mc = MenuController.getInstance();
+		
+		ViewAllPCVar components = new ViewAllPCVar();
+		initialize(components);
+		initializeAdmin(components);
+		pcCont.getData(components);
+		setStyle(components);
+		setStyleAdmin(components);
+		initializeAlert(components);
+		mc.selectMenuType(components.bp, role);
+		
+		pcCont.addViewPCDetailHandler(components);
+		pcCont.addCreatePCHandler(components);
+
+		return components.scene;
+	}
+	
 	public Scene initPage(String role) {
 		PCController pcCont = PCController.getInstance();
+		MenuController mc = MenuController.getInstance();
 		
 		ViewAllPCVar components = new ViewAllPCVar();
 		initialize(components);
 		pcCont.getData(components);
 		setStyle(components);
 		initializeAlert(components);
+		mc.selectMenuType(components.bp, role);
 		
-		components.bp.setTop(AdminController.getInstance().menuAdmin.menuBar);
-		
-		pcCont.addViewPCDetailHandler(components);
-		pcCont.addCreatePCHandler(components);
-
 		return components.scene;
 	}
 

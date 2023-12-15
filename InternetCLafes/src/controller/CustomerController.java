@@ -2,6 +2,7 @@ package controller;
 
 import main.Main;
 import view.MenuCustomer;
+import view.ViewAllPC;
 
 public class CustomerController {
 	// Class ini dianggap sebagai Customer Menu Controller, dia yang mengatur event handler dan validasi dari bagian Menu dari role Customer
@@ -37,7 +38,7 @@ public class CustomerController {
 			Main.changeScene(null);
 		});
 		mc.menuItemViewAllPC.setOnAction(e->{
-			Main.changeScene(null);
+			Main.changeScene(new ViewAllPC().initPage(role));
 		});
 		mc.menuItemViewCustomerTransaction.setOnAction(e->{
 			Main.changeScene(null);

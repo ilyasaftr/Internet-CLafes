@@ -40,7 +40,7 @@ public class PCController {
 		return pcModel.getPCDetail(pcID);
 	}
 
-	// mengatur logic kalau ada record di table transaction header yang di select
+	// mengatur logic kalau menekan record pc yang ada di tabel sehingga muncul window baru isinya pc detail serta pilihan update delete
 	public void addViewPCDetailHandler(ViewAllPCVar components) {
 		components.pcTable.setOnMouseClicked(e -> {
 TableSelectionModel<PC> tableSelectionModel = components.pcTable.getSelectionModel();
@@ -57,41 +57,45 @@ TableSelectionModel<PC> tableSelectionModel = components.pcTable.getSelectionMod
 		});
 	}
 
+	// menambahkan event handler on click kalau mau tambahkan pc
 	public void addCreatePCHandler(ViewAllPCVar components) {
 		components.btnCreatePC.setOnAction(e -> {
+			// kalau pc id kosong
 			if(components.pcIdTf.getText().isBlank()) {
 				components.alert.setContentText("PC ID can not be empty");
 				components.alert.showAndWait();
 			}
+			// kalau pc id bukan digit
 			else if(!tryParseInt(components.pcIdTf.getText())) {
 				components.alert.setContentText("PC ID must be numeric");
 				components.alert.showAndWait();
 			}
+			// kalau pc id bukan bilangan positif
 			else if(Integer.parseInt(components.pcIdTf.getText()) <= 0) {
 				components.alert.setContentText("PC ID must be a positive number");
 				components.alert.showAndWait();
 			}
+			// kalau pc id sudah ada
 			else if(getPCDetail(Integer.parseInt(components.pcIdTf.getText())) != null) {
 				components.alert.setContentText("PC ID must be unique");
 				components.alert.showAndWait();
 			}
 			else {
 				pcModel.addNewPC(Integer.parseInt(components.pcIdTf.getText()));
+				// kosongkan tabel dan refill dengan data baru
 				refreshTable(components);
 			}
 		});
 	}
-
-	/*
-	 * getData digunakan untuk mendapatkan data pc semua yang akan dimasukkan ke tabel
-	 */
 	
+	// memperbarui data tabel setelah Create - Update - Delete operation
 	private void refreshTable(ViewAllPCVar components) {
 		components.pcTable.getItems().clear();
 		components.pcList.clear();
 		getData(components);
 	}
 	
+	// Memasukkan data ke tabel dari database
 	public void getData(ViewAllPCVar components) {
 		PCController pcControl = PCController.getInstance();
 		components.pcList = pcControl.getAllPCData();
@@ -101,6 +105,7 @@ TableSelectionModel<PC> tableSelectionModel = components.pcTable.getSelectionMod
 		}
 	}
 
+	// coba parse int, return true kalau int, false kalau selain int
 	private boolean tryParseInt(String text) {
 		try {
 			Integer.parseInt(text);
@@ -110,6 +115,7 @@ TableSelectionModel<PC> tableSelectionModel = components.pcTable.getSelectionMod
 		}
 	}
 
+	// mengurus update pc detail tepatnya condition
 	public void addUpdatePCHandler(ViewPCDetailVar viewPCDetailVar, ViewAllPCVar viewAllPCVar) {
 		viewPCDetailVar.btnUpdate.setOnAction(e -> {
 			if(viewPCDetailVar.pcIdTf.getText().isBlank()) {
@@ -133,11 +139,13 @@ TableSelectionModel<PC> tableSelectionModel = components.pcTable.getSelectionMod
 			else {
 				pcModel.updatePCCondition(Integer.parseInt(viewPCDetailVar.pcIdTf.getText()), viewPCDetailVar.pcCondTf.getValue());
 				refreshTable(viewAllPCVar);
+				// kalau sudah update, tutup window pc detail
 				viewPCDetailVar.stage.close();
 			}
 		});
 	}
 
+	// mengurus kalau user mau hapus PC
 	public void addDeletePCHandler(ViewPCDetailVar viewPCDetailVar, ViewAllPCVar viewAllPCVar) {
 		viewPCDetailVar.btnDelete.setOnAction(e -> {
 			if(viewPCDetailVar.pcIdTf.getText().isBlank()) {
@@ -161,6 +169,7 @@ TableSelectionModel<PC> tableSelectionModel = components.pcTable.getSelectionMod
 else {
 				pcModel.deletePC(Integer.parseInt(viewPCDetailVar.pcIdTf.getText()));
 				refreshTable(viewAllPCVar);
+				// kalau sudah delete, tutup window pc detail
 				viewPCDetailVar.stage.close();
 			}
 		});
