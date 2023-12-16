@@ -41,6 +41,16 @@ public class UserController {
 		return userModel.getAllUserData();
 	}
 	
+	public Vector<Integer> getAllTechnicianID(){
+		Vector<Integer> userIDList = new Vector<>();
+		
+		for(User user : getAllTechnician()) {
+			userIDList.add(user.getUserID());
+		}
+		
+		return userIDList;
+	}
+	
 	// update user role
 	public void changeUserRole(Integer UserID, String NewRole) {
 		userModel.changeUserRole(UserID, NewRole);
@@ -215,7 +225,7 @@ public class UserController {
 	}
 	
 	// dapatkan user record dari database berdasarkan username dan password
-	private User getUserData(String username, String password) {
+	public User getUserData(String username, String password) {
 		return userModel.getUserData(username, password);
 	}
 
@@ -244,7 +254,7 @@ public class UserController {
 	}
 
 	// cek apa ada record user yang sama username-nya
-	private boolean checkExist(String username) {
+	public boolean checkExist(String username) {
 		for(User user : getAllUserData()) {
 			if(user.getUserName().equals(username)) {
 				return true;
@@ -252,5 +262,15 @@ public class UserController {
 		}
 		
 		return false;
+	}
+	
+	public User getUserByUserID(Integer userId) {
+		for(User user : getAllUserData()) {
+			if(user.getUserID().equals(userId)) {
+				return user;
+			}
+		}
+		
+		return null;
 	}
 }

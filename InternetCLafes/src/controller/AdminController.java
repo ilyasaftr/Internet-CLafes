@@ -6,7 +6,9 @@ import view.ViewAllPC;
 import view.ViewAllReport;
 import view.ViewAllStaff;
 import view.ViewAllJob;
+import view.ViewAllJob.ViewAllJobVar;
 import view.ViewAllTransaction;
+import view.ViewJobDetail;
 import view.ViewPCDetail;
 import view.ViewTransactionDetail;
 import view.ViewAllPC.ViewAllPCVar;
@@ -60,6 +62,10 @@ public class AdminController {
 	// Membuat window baru khusus transaction detail
 	public void createTransactionDetailWindow(Integer transID) {
 		new ViewTransactionDetail().initPage(role, transID);
+	}
+	
+	public void createJobDetailWindow(Integer jobID, ViewAllJobVar components) {
+		new ViewJobDetail().initPage(role, jobID, components);
 	}
 	
 	// Membuat window baru khusus pc detail

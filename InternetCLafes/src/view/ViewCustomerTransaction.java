@@ -47,7 +47,7 @@ public class ViewCustomerTransaction {
 	 */
 	private void initialize(ViewCustomerTransactionVar components) {
 
-		components.titleLbl = new Label("View Transaction Details");
+		components.titleLbl = new Label("View Customer Transactions");
 
 		initializeTable(components);
 		getData(components);

@@ -35,6 +35,16 @@ public class PCController {
 	public Vector<PC> getAllPCData() {
 		return pcModel.getAllPCData();
 	}
+	
+	public Vector<Integer> getAllPCID(){
+		Vector<Integer> PCIDList = new Vector<>();
+		
+		for(PC pc : getAllPCData()) {
+			PCIDList.add(pc.getPC_ID());
+		}
+		
+		return PCIDList;
+	}
 
 	public PC getPCDetail(Integer pcID) {
 		return pcModel.getPCDetail(pcID);
@@ -84,10 +94,16 @@ TableSelectionModel<PC> tableSelectionModel = components.pcTable.getSelectionMod
 				pcModel.addNewPC(Integer.parseInt(components.pcIdTf.getText()));
 				// kosongkan tabel dan refill dengan data baru
 				refreshTable(components);
+				// kosongkan form
+				refreshForm(components);
 			}
 		});
 	}
 	
+	private void refreshForm(ViewAllPCVar components) {
+		components.pcIdTf.setText("");
+	}
+
 	// memperbarui data tabel setelah Create - Update - Delete operation
 	private void refreshTable(ViewAllPCVar components) {
 		components.pcTable.getItems().clear();
@@ -137,12 +153,16 @@ TableSelectionModel<PC> tableSelectionModel = components.pcTable.getSelectionMod
 				viewPCDetailVar.alert.showAndWait();
 			}
 			else {
-				pcModel.updatePCCondition(Integer.parseInt(viewPCDetailVar.pcIdTf.getText()), viewPCDetailVar.pcCondTf.getValue());
+				updatePCCondition(Integer.parseInt(viewPCDetailVar.pcIdTf.getText()), viewPCDetailVar.pcCondTf.getValue());
 				refreshTable(viewAllPCVar);
 				// kalau sudah update, tutup window pc detail
 				viewPCDetailVar.stage.close();
 			}
 		});
+	}
+
+	public void updatePCCondition(int PcID, String Condition) {
+		pcModel.updatePCCondition(PcID, Condition);
 	}
 
 	// mengurus kalau user mau hapus PC

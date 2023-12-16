@@ -52,6 +52,7 @@ public class PCModel {
 		return pcList;
 	}
 
+	// Method untuk mendapatkan pc detail dari sebuah pc id
 	public PC getPCDetail(Integer pcID) {
 		Vector<PC> pcList = new Vector<>();
 
@@ -78,6 +79,7 @@ public class PCModel {
 		return pcList.isEmpty()? null: pcList.firstElement();
 	}
 
+	// menambahkan pc baru
 	public void addNewPC(int pcId) {
 		Connect con = Connect.getInstance();
 		
@@ -98,6 +100,7 @@ public class PCModel {
 		}
 	}
 
+	// memperbarui pc condition berdasarkan id-nya
 	public void updatePCCondition(int PcID, String Condition) {
 		Connect con = Connect.getInstance();
 		
@@ -116,6 +119,7 @@ public class PCModel {
 		}
 	}
 
+	// menghapus pc berdasarkan id-nya
 	public void deletePC(int PcID) {
 		Connect con = Connect.getInstance();
 		
