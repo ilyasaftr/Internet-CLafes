@@ -2,10 +2,8 @@ package view;
 
 import java.util.Vector;
 
-import controller.AdminController;
 import controller.MenuController;
 import controller.PCController;
-import controller.PageController;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -102,6 +100,7 @@ public class ViewAllPC {
 		
 	}
 
+	// setStyle elemen" khusus admin
 	private void setStyleAdmin(ViewAllPCVar components) {
 		components.gp.setVgap(10);
 		components.gp.setHgap(15);
@@ -127,6 +126,7 @@ public class ViewAllPC {
 	/*
 	 * initPage akan dipanggil oleh changeScene pada PageController untuk menggantikan isi dari window / scene menjadi current page.
 	 */
+	// initPageAdmin khusus dijalankan kalau role admin
 	public Scene initPageAdmin(String role) {
 		PCController pcCont = PCController.getInstance();
 		MenuController mc = MenuController.getInstance();
@@ -146,6 +146,7 @@ public class ViewAllPC {
 		return components.scene;
 	}
 	
+	// initPage dijalankan kalau role selain admin
 	public Scene initPage(String role) {
 		PCController pcCont = PCController.getInstance();
 		MenuController mc = MenuController.getInstance();

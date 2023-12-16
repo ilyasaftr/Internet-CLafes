@@ -74,6 +74,32 @@ public class UserModel {
 
 		return userList;
 	}
+	
+	// untuk mendapatkan list berisi data semua Computer Technician yang terdaftar di database
+	public Vector<User> getAllTechnician() {
+		Vector<User> userList = new Vector<>();
+
+		Connect con = Connect.getInstance();
+		String query = "SELECT * FROM `user` WHERE `UserRole` = 'Computer Technician';";
+
+		ResultSet rs = con.execQuery(query);
+
+		try {
+			while(rs.next()) {
+				Integer UserID = rs.getInt(1);
+				String UserName = rs.getString(2);
+				String UserPassword = rs.getString(3);
+				Integer UserAge = rs.getInt(4);
+				String UserRole = rs.getString(5);
+
+				userList.add(new User(UserID, UserAge, UserName, UserPassword, UserRole));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return userList;
+	}
 
 	// untuk meng-insert user baru ke database
 	public void addNewUser(String username, String password, Integer age) {

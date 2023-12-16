@@ -30,6 +30,7 @@ public class OperatorController {
 		addHandlers(menuOperator);
 	}
 
+	// Menambahkan event handler onclick untuk tiap menu item
 	private void addHandlers(MenuOperator mo) {
 		mo.menuItemAssignUser.setOnAction(e->{
 			Main.changeScene(null);

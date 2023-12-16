@@ -24,6 +24,7 @@ public class MenuController {
 		return instance;
 	}
 	
+	// menyeleksi menu yang digunakan berdasarkan role
 	public void selectMenuType(BorderPane bp, String role) {
 		if(role.equals("Admin")) {
 			bp.setTop(AdminController.getInstance().menuAdmin.menuBar);

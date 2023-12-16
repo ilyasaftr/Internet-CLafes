@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import model.User;
 import view.Register;
 
 public class Main extends Application implements EventHandler<WindowEvent>  {
@@ -22,6 +23,9 @@ public class Main extends Application implements EventHandler<WindowEvent>  {
 	 * serta dibuat volatile agar semua thread dapat melihat perubahan yang terjadi pada variabel ini.
 	*/
 	public static volatile Stage stage;
+	
+	// Untuk menyimpan user yang telah melakukan login
+	public static User user;
 
 	/*
 	 * Method changeScene juga dibuat static agar bisa dipanggil tanpa membuat instance Main baru.
@@ -40,6 +44,7 @@ public class Main extends Application implements EventHandler<WindowEvent>  {
 		stage.setScene(s);
 	}
 
+	
 	public static void main(String[] args) {
 		launch(args);
 	}

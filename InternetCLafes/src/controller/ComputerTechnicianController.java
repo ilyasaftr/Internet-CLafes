@@ -29,7 +29,8 @@ public class ComputerTechnicianController {
 		menuTechnician.initialize();
 		addHandlers(menuTechnician);
 	}
-
+	
+	// Menambahkan event handler onclick untuk tiap menu item
 	private void addHandlers(MenuTechnician mt) {
 		mt.menuItemCompleteJob.setOnAction(e->{
 			Main.changeScene(null);
@@ -37,7 +38,7 @@ public class ComputerTechnicianController {
 		mt.menuItemViewAllPC.setOnAction(e->{
 			Main.changeScene(new ViewAllPC().initPage(role));
 		});
-		mt.menuItemViewAllTechJob.setOnAction(e->{
+		mt.menuItemViewAllJob.setOnAction(e->{
 			Main.changeScene(null);
 		});
 	}

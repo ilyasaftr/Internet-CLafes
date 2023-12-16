@@ -1,6 +1,7 @@
 package controller;
 
 import main.Main;
+import model.User;
 import view.HomePage;
 import view.Login;
 import view.Login.LoginVar;
@@ -52,7 +53,8 @@ public class PageController {
 	}
 	
 	// method untuk langsung redirect ke home page, kalau sudah login
-	public void redirectToHome(String role) {
-		Main.changeScene(new HomePage().initPage(role));
+	public void redirectToHome(User user) {
+		Main.user = user;
+		Main.changeScene(new HomePage().initPage(user));
 	}
 }

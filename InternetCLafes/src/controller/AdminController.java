@@ -5,7 +5,7 @@ import view.MenuAdmin;
 import view.ViewAllPC;
 import view.ViewAllReport;
 import view.ViewAllStaff;
-import view.ViewAllTechnician;
+import view.ViewAllJob;
 import view.ViewAllTransaction;
 import view.ViewPCDetail;
 import view.ViewTransactionDetail;
@@ -49,8 +49,8 @@ public class AdminController {
 		ma.menuItemViewAllStaff.setOnAction(e -> {
 			Main.changeScene(new ViewAllStaff().initPage(role));
 		});
-		ma.menuItemViewAllTechJob.setOnAction(e -> {
-			Main.changeScene(new ViewAllTechnician().initPage(role));
+		ma.menuItemViewAllJob.setOnAction(e -> {
+			Main.changeScene(new ViewAllJob().initPage(role));
 		});
 		ma.menuItemViewAllTransaction.setOnAction(e -> {
 			Main.changeScene(new ViewAllTransaction().initPage(role));

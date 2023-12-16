@@ -46,6 +46,11 @@ public class UserController {
 		userModel.changeUserRole(UserID, NewRole);
 	}
 	
+	// untuk mendapatkan list berisi data semua Computer Technician yang terdaftar di database
+	public Vector<User> getAllTechnician(){
+		return userModel.getAllTechnician();
+	}
+	
 	// handler event change user role (mouse click table dan button change role)
 	public void addChangeRoleHandler(ViewAllStaffVar components) {
 		// mengatur logic kalau ada record di table staff yang di select
@@ -204,7 +209,7 @@ public class UserController {
 			// kalau valid, redirect ke home page dan masukkan role sebagai parameter
 			else {
 				PageController pc = PageController.getInstance();
-				pc.redirectToHome(user.getUserRole());
+				pc.redirectToHome(user);
 			}
 		});
 	}
