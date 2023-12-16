@@ -1,6 +1,7 @@
 package controller;
 
 import main.Main;
+import view.MakeReport;
 import view.MenuCustomer;
 import view.ViewAllPC;
 import view.ViewCustomerTransaction;
@@ -36,7 +37,7 @@ public class CustomerController {
 			Main.changeScene(null);
 		});
 		mc.menuItemMakeReport.setOnAction(e->{
-			Main.changeScene(null);
+			Main.changeScene(new MakeReport().initPage(role));
 		});
 		mc.menuItemViewAllPC.setOnAction(e->{
 			Main.changeScene(new ViewAllPC().initPage(role));

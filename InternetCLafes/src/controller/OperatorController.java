@@ -1,6 +1,7 @@
 package controller;
 
 import main.Main;
+import view.MakeReport;
 import view.MenuOperator;
 import view.ViewAllPC;
 
@@ -33,7 +34,7 @@ public class OperatorController {
 	// Menambahkan event handler onclick untuk tiap menu item
 	private void addHandlers(MenuOperator mo) {
 		mo.menuItemMakeReport.setOnAction(e->{
-			Main.changeScene(null);
+			Main.changeScene(new MakeReport().initPage(role));
 		});
 		mo.menuItemViewAllBook.setOnAction(e->{
 			Main.changeScene(null);

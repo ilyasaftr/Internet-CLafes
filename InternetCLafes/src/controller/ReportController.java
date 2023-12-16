@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import dao.ReportModel;
 import model.Report;
+import view.MakeReport.MakeReportVar;
 
 public class ReportController {
 	// Report Controller menggunakan Singleton agar hanya satu instance yang terpakai di app.
@@ -36,5 +37,23 @@ public class ReportController {
 	// Method untuk menambahkan record Report ke database melalui model
 	public void addNewReport(String UserRole, Integer PcID, String ReportNote) {
 		reportModel.addNewReport(UserRole, PcID, ReportNote);
+	}
+
+	public void addAddReportHandler(MakeReportVar components, String role) {
+		components.btnSubmit.setOnAction(e -> {
+			if(components.PC_IDCB.getValue() == null) {
+				components.errorAlert.setContentText("PC ID can not be empty");
+				components.errorAlert.showAndWait();
+			}
+			else if(components.ReportNoteTxt.getText().isBlank()) {
+				components.errorAlert.setContentText("Report Note can not be empty");
+				components.errorAlert.showAndWait();
+			}
+			else {
+				addNewReport(role, components.PC_IDCB.getValue(), components.ReportNoteTxt.getText());
+				components.successAlert.setContentText("Report successfully created");
+				components.successAlert.showAndWait();
+			}
+		});
 	}
 }
