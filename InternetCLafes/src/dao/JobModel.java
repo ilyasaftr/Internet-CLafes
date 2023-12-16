@@ -101,7 +101,7 @@ public class JobModel {
 
 		Connect con = Connect.getInstance();
 		
-		String query = "SELECT * FROM `job` WHERE `Job_ID` = ?;";
+		String query = "SELECT * FROM `job` WHERE `Job_ID` = ?";
 		PreparedStatement ps = con.prepareStatement(query);
 
 		try {
@@ -121,5 +121,32 @@ public class JobModel {
 		}
 
 		return (jobList.isEmpty())? null: jobList.firstElement();
+	}
+
+	public Vector<Job> getJobByPCID(Integer pcID) {
+		Vector<Job> jobList = new Vector<>();
+
+		Connect con = Connect.getInstance();
+		
+		String query = "SELECT * FROM `job` WHERE `PC_ID` = ? AND  `JobStatus` = 'UnComplete';";
+		PreparedStatement ps = con.prepareStatement(query);
+
+		try {
+			ps.setInt(1, pcID);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Integer Job_ID = rs.getInt("Job_ID");
+				Integer UserID = rs.getInt("UserID");
+				Integer PC_ID = rs.getInt("PC_ID");
+				String JobStatus = rs.getString("JobStatus");
+
+				jobList.add(new Job(Job_ID, UserID, PC_ID, JobStatus));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return jobList;
 	}
 }

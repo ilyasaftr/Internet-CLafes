@@ -1,11 +1,13 @@
 package controller;
 
+import java.time.LocalDate;
 import java.util.Vector;
 
 import dao.JobModel;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableSelectionModel;
 import model.Job;
+import model.PCBook;
 import model.User;
 import view.ViewAllJob.ViewAllJobVar;
 import view.ViewJobDetail.ViewJobDetailVar;
@@ -33,6 +35,7 @@ public class JobController {
 	// Akses model untuk mengakses data Job dari database
 	JobModel jobModel = JobModel.getInstance();
 	PCController pc = PCController.getInstance();
+	PCBookController pcBookCont = PCBookController.getInstance();
 
 	public void getTableData(ViewAllJobVar components) {
 		components.jobTable.getItems().addAll(getAllJobData());
@@ -75,11 +78,28 @@ public class JobController {
 				components.alert.setContentText("PC ID must exist in database");
 				components.alert.showAndWait();
 			}
+			else if(!getJobByPCID(components.PC_IDCB.getValue()).isEmpty()) {
+				components.alert.setContentText("PC is currently worked on by technicians");
+				components.alert.showAndWait();
+			}
 			else {
+				
+				Vector<PCBook> pcBookList =  pcBookCont.GetPCBookedData(components.PC_IDCB.getValue(), LocalDate.now());
+				
+				if(!pcBookList.isEmpty()) {
+					for(PCBook pcBook : pcBookList) {
+						AdminController.getInstance().createAssignUser(pcBook, components.PC_IDCB.getValue());
+					}
+				}
+				
 				addNewJob(components.UserIDCB.getValue(), components.PC_IDCB.getValue());
 				refreshTable(components);
 			}
 		});
+	}
+
+	private Vector<Job> getJobByPCID(Integer pcID) {
+		return jobModel.getJobByPCID(pcID);
 	}
 
 	public void addNewJob(Integer UserID, Integer PcID) {

@@ -2,7 +2,8 @@ package controller;
 
 import java.util.Vector;
 
-import dao.TransactionModel;
+import dao.TransactionDetailModel;
+import dao.TransactionHeaderModel;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableSelectionModel;
 import model.PCBook;
@@ -31,26 +32,27 @@ public class TransactionController {
 	}
 	
 	// Akses model untuk mengakses data transaction header dan detail dari database
-	TransactionModel transactionModel = TransactionModel.getInstance();
+	TransactionHeaderModel transactionHeaderModel = TransactionHeaderModel.getInstance();
+	TransactionDetailModel transactionDetailModel = TransactionDetailModel.getInstance();
 	
 	// Method untuk mendapatkan list isinya semua data transaction header
 	public Vector<TransactionHeader> getAllTransactionHeaderData(){
-		return transactionModel.getAllTransactionHeaderData();
+		return transactionHeaderModel.getAllTransactionHeaderData();
 	}
 	
 	// Method untuk menambahkan record transaction header dan detail ke database melalui model
 	public void addTransaction(int TransactionID, Vector<PCBook> ListPcBook, int StaffID) {
-		transactionModel.addTransaction(TransactionID, ListPcBook, StaffID);
+		
 	}
 	
 	// Method untuk mendapatkan semua transaction detail dari transaction id yang bersangkutan
 	public Vector<TransactionDetail> getAllTransactionDetail(int TransactionID) {
-		return transactionModel.getAllTransactionDetail(TransactionID);
+		return transactionDetailModel.getAllTransactionDetail(TransactionID);
 	}
 	
 	// Method untuk mendapatkan semua transaction detail dari user id yang bersangkutan
 	public Vector<TransactionDetail> getUserTransactionDetail(int UserID) {
-		return transactionModel.getUserTransactionDetail(UserID);
+		return transactionDetailModel.getUserTransactionDetail(UserID);
 	}
 	
 	public void addViewTransactionDetailHandler(ViewAllTransactionVar components) {

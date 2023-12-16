@@ -1,6 +1,7 @@
 package controller;
 
 import main.Main;
+import model.PCBook;
 import view.MenuAdmin;
 import view.ViewAllPC;
 import view.ViewAllReport;
@@ -8,6 +9,7 @@ import view.ViewAllStaff;
 import view.ViewAllJob;
 import view.ViewAllJob.ViewAllJobVar;
 import view.ViewAllTransaction;
+import view.ViewAssignUser;
 import view.ViewJobDetail;
 import view.ViewPCDetail;
 import view.ViewTransactionDetail;
@@ -71,6 +73,10 @@ public class AdminController {
 	// Membuat window baru khusus pc detail
 	public void createPCDetailWindow(Integer pcID, ViewAllPCVar components) {
 		new ViewPCDetail().initPage(role, pcID, components);
+	}
+
+	public void createAssignUser(PCBook pcBook, Integer pcId) {
+		new ViewAssignUser().initPage(pcBook, pcId);
 	}
 	
 }

@@ -1,5 +1,6 @@
 package controller;
 
+import java.time.LocalDate;
 import java.util.Vector;
 
 import dao.PCModel;
@@ -91,13 +92,17 @@ TableSelectionModel<PC> tableSelectionModel = components.pcTable.getSelectionMod
 				components.alert.showAndWait();
 			}
 			else {
-				pcModel.addNewPC(Integer.parseInt(components.pcIdTf.getText()));
+				addNewPC(Integer.parseInt(components.pcIdTf.getText()));
 				// kosongkan tabel dan refill dengan data baru
 				refreshTable(components);
 				// kosongkan form
 				refreshForm(components);
 			}
 		});
+	}
+	
+	public void addNewPC(int pcId) {
+		pcModel.addNewPC(pcId);
 	}
 	
 	private void refreshForm(ViewAllPCVar components) {
@@ -186,13 +191,25 @@ TableSelectionModel<PC> tableSelectionModel = components.pcTable.getSelectionMod
 				viewPCDetailVar.alert.setContentText("You must select a valid PC Condition");
 				viewPCDetailVar.alert.showAndWait();
 			}
-else {
-				pcModel.deletePC(Integer.parseInt(viewPCDetailVar.pcIdTf.getText()));
-				refreshTable(viewAllPCVar);
-				// kalau sudah delete, tutup window pc detail
-				viewPCDetailVar.stage.close();
+			else {
+				PCBookController pcBookControl = PCBookController.getInstance();
+				
+				if(!pcBookControl.GetPCBookedData(Integer.parseInt(viewPCDetailVar.pcIdTf.getText()), LocalDate.now()).isEmpty()) {
+					viewPCDetailVar.alert.setContentText("PC still has book list in the future");
+					viewPCDetailVar.alert.showAndWait();
+				}
+				else {
+					deletePC(Integer.parseInt(viewPCDetailVar.pcIdTf.getText()));
+					refreshTable(viewAllPCVar);
+					// kalau sudah delete, tutup window pc detail
+					viewPCDetailVar.stage.close();
+				}
 			}
 		});
+	}
+
+	private void deletePC(int PcID) {
+		pcModel.deletePC(PcID);
 	}
 	
 	
