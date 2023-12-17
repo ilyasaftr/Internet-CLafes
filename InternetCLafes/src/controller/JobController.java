@@ -34,22 +34,29 @@ public class JobController {
 
 	// Akses model untuk mengakses data Job dari database
 	JobModel jobModel = JobModel.getInstance();
+	
+	// Akses controller PC dan PCBook
 	PCController pc = PCController.getInstance();
 	PCBookController pcBookCont = PCBookController.getInstance();
 
+	// Mendapatkan data untuk tabel view ViewAllJob
 	public void getTableData(ViewAllJobVar components) {
 		components.jobTable.getItems().addAll(getAllJobData());
 	}
 
+	// Mendapatkan list isinya semua data job dari database lewat model
 	public Vector<Job> getAllJobData() {
 		return jobModel.getAllJobData();
 	}
 	
+	// Menambahkan event handler Add Job
 	public void addAddJobHandler(ViewAllJobVar components) {
 		components.btnAddJob.setOnAction(e -> {
 			UserController uc = UserController.getInstance();
 			
 			User user;
+			
+			// Validasi apa terisi ComboBox UserID
 			if(components.UserIDCB.getValue() == null) {
 				user = null;
 			}
@@ -58,6 +65,8 @@ public class JobController {
 				user = uc.getUserData(user.getUserName(), user.getUserPassword());
 			}
 			
+			// Validasi apakah user ID numerik, bilangan positif, dan memiliki role Computer Technician
+			// Validasi apakah PC ID terisi, ada di database, dan tidak ada job.
 			if(components.UserIDCB.getValue() == null) {
 				components.alert.setContentText("User ID can not be empty");
 				components.alert.showAndWait();
@@ -84,6 +93,9 @@ public class JobController {
 			}
 			else {
 				
+				// kalau ada pcBook, pindahkan user pengguna pc yang bersangkutan ke pc baru
+				// lalu tambahkan job baru dan perbarui data tabel
+				
 				Vector<PCBook> pcBookList =  pcBookCont.GetPCBookedData(components.PC_IDCB.getValue(), LocalDate.now());
 				
 				if(!pcBookList.isEmpty()) {
@@ -98,26 +110,35 @@ public class JobController {
 		});
 	}
 
+	// mendapatkan job dari pc id
 	private Vector<Job> getJobByPCID(Integer pcID) {
 		return jobModel.getJobByPCID(pcID);
 	}
 
+	// menambahkan job baru ke database
 	public void addNewJob(Integer UserID, Integer PcID) {
 		jobModel.addNewJob(UserID, PcID);
 	}
 	
+	// mengurus event handler untuk update job
 	public void addUpdateJobHandler(ViewJobDetailVar viewJobDetailVar, ViewAllJobVar viewAllJobVar) {
 		viewJobDetailVar.btnUpdateJob.setOnAction(e -> {
+			// validasi apakah job status combo box isinya Complete atau UnComplete
 			if(!(viewJobDetailVar.JobStatusCB.getValue().equals("Complete") ||
 					viewJobDetailVar.JobStatusCB.getValue().equals("UnComplete"))) {
 				viewJobDetailVar.alert.setContentText("You must select a valid PC Condition");
 				viewJobDetailVar.alert.showAndWait();
 			}
 			
+			// kalau sudah valid, update job status
 			updateJobStatus(Integer.parseInt(viewJobDetailVar.Job_IDTf.getText()), viewJobDetailVar.JobStatusCB.getValue());
 			
+			// lalu setelah itu, update juga PC Condition
+			// kalau Job complete, PC jadi Usable
+			// kalau UnComplete, PC jadi Maintenance
 			pc.updatePCCondition(Integer.parseInt(viewJobDetailVar.PC_IDTf.getText()), (viewJobDetailVar.JobStatusCB.getValue().equals("Complete"))? "Usable": "Maintenance");
 			
+			// perbarui data tabel
 			refreshTable(viewAllJobVar);
 			
 			// kalau sudah update, tutup window
@@ -125,18 +146,23 @@ public class JobController {
 		});
 	}
 	
+	// untuk memperbarui data jobstatus dari sebuah job
 	public void updateJobStatus(Integer JobID, String JobStatus) {
 		jobModel.updateJobStatus(JobID, JobStatus);
 	}
 	
+	// mendapatkan job dari userID
 	public Job getTechnicianJob(Integer UserID) {
 		return jobModel.getTechnicianJob(UserID);
 	}
 	
+	// mendapatkan job dari jobId
 	public Job getJobByJobID(Integer jobID) {
 		return jobModel.getJobByJobID(jobID);
 	}
 	
+	// event handler dari View Job Detail
+	// kalau tekan tombol, dia akan buka window baru isinya job detail
 	public void addViewJobDetailHandler(ViewAllJobVar components) {
 		components.jobTable.setOnMouseClicked(e -> {
 			TableSelectionModel<Job> tableSelectionModel = 			components.jobTable.getSelectionModel();
@@ -146,13 +172,14 @@ public class JobController {
 			// menampung selected item dari table
 			Job job = tableSelectionModel.getSelectedItem();
 			
-			// kalau pc ada yang di-select
+			// kalau job ada yang di-select
 			if(job != null) {
 				AdminController.getInstance().createJobDetailWindow(job.getJob_ID(), components);
 			}
 		});
 	}
 
+	// perbarui data tabel
 	private void refreshTable(ViewAllJobVar components) {
 		components.jobTable.getItems().clear();
 		getTableData(components);

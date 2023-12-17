@@ -12,6 +12,7 @@ public class CustomerController {
 	public MenuCustomer menuCustomer;
 	private final String role = "Customer";
 	
+	// CustomerController menggunakan Singleton pattern supaya cuma satu instance yang dibuat dalam app
 	public static volatile CustomerController instance = null;
 	
 	public static CustomerController getInstance() {
@@ -31,17 +32,22 @@ public class CustomerController {
 		menuCustomer.initialize();
 		addHandlers(menuCustomer);
 	}
+	
 	// Menambahkan event handler onclick untuk tiap menu item
 	private void addHandlers(MenuCustomer mc) {
+		// Book PC
 		mc.menuItemBookPC.setOnAction(e->{
 			Main.changeScene(null);
 		});
+		// Make Report
 		mc.menuItemMakeReport.setOnAction(e->{
 			Main.changeScene(new MakeReport().initPage(role));
 		});
+		// View All PC
 		mc.menuItemViewAllPC.setOnAction(e->{
 			Main.changeScene(new ViewAllPC().initPage(role));
 		});
+		// View Customer Transaction History
 		// menambahkan param user untuk mendapatkan user ID
 		mc.menuItemViewCustomerTransaction.setOnAction(e->{
 			Main.changeScene(new ViewCustomerTransaction().initPage(role, Main.user));

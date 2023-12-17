@@ -55,6 +55,7 @@ public class TransactionController {
 		return transactionDetailModel.getUserTransactionDetail(UserID);
 	}
 	
+	// event handler view all transaction (admin)
 	public void addViewTransactionDetailHandler(ViewAllTransactionVar components) {
 		// mengatur logic kalau ada record di table transaction header yang di select
 		components.transactionTable.setOnMouseClicked(e -> {
@@ -66,6 +67,7 @@ public class TransactionController {
 			TransactionHeader th = tableSelectionModel.getSelectedItem();
 			
 			// kalau transaction header ada yang di-select
+			// buat window transaction detail baru
 			if(th != null) {
 				AdminController.getInstance().createTransactionDetailWindow(th.getTransactionID());
 			}

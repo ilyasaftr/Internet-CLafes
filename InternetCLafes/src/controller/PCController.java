@@ -101,10 +101,12 @@ TableSelectionModel<PC> tableSelectionModel = components.pcTable.getSelectionMod
 		});
 	}
 	
+	// Menambahkan PC baru
 	public void addNewPC(int pcId) {
 		pcModel.addNewPC(pcId);
 	}
 	
+	// Mengosongkan form
 	private void refreshForm(ViewAllPCVar components) {
 		components.pcIdTf.setText("");
 	}
@@ -166,6 +168,7 @@ TableSelectionModel<PC> tableSelectionModel = components.pcTable.getSelectionMod
 		});
 	}
 
+	// Memperbarui PC Condition
 	public void updatePCCondition(int PcID, String Condition) {
 		pcModel.updatePCCondition(PcID, Condition);
 	}
@@ -208,6 +211,7 @@ TableSelectionModel<PC> tableSelectionModel = components.pcTable.getSelectionMod
 		});
 	}
 
+	// Menghapus PC dari database
 	private void deletePC(int PcID) {
 		pcModel.deletePC(PcID);
 	}

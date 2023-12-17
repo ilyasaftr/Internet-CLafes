@@ -264,6 +264,7 @@ public class UserController {
 		return false;
 	}
 	
+	// Dapatkan User object dari userID
 	public User getUserByUserID(Integer userId) {
 		for(User user : getAllUserData()) {
 			if(user.getUserID().equals(userId)) {

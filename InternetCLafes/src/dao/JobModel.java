@@ -29,6 +29,7 @@ public class JobModel {
 		return instance;
 	}
 
+	// Mendapatkan semua data job dari database
 	public Vector<Job> getAllJobData() {
 		Vector<Job> jobList = new Vector<>();
 
@@ -53,6 +54,7 @@ public class JobModel {
 		return jobList;
 	}
 	
+	// Menambahkan job baru ke database
 	public void addNewJob(Integer UserID, Integer PcID) {
 		Connect con = Connect.getInstance();
 		
@@ -74,6 +76,7 @@ public class JobModel {
 		}
 	}
 	
+	// Memperbarui status job
 	public void updateJobStatus(Integer JobID, String JobStatus) {
 		Connect con = Connect.getInstance();
 		
@@ -92,10 +95,12 @@ public class JobModel {
 		}
 	}
 
+	// Mendapatkan job dari technician dari userID
 	public Job getTechnicianJob(Integer userID) {
 		return null;
 	}
 	
+	// Mendapatkan job dari job ID
 	public Job getJobByJobID(Integer jobID) {
 		Vector<Job> jobList = new Vector<>();
 
@@ -123,6 +128,7 @@ public class JobModel {
 		return (jobList.isEmpty())? null: jobList.firstElement();
 	}
 
+	// Mendapatkan job yang UnComplete dari PC ID
 	public Vector<Job> getJobByPCID(Integer pcID) {
 		Vector<Job> jobList = new Vector<>();
 

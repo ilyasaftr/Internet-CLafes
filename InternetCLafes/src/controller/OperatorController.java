@@ -33,12 +33,17 @@ public class OperatorController {
 
 	// Menambahkan event handler onclick untuk tiap menu item
 	private void addHandlers(MenuOperator mo) {
+		// Make Report
 		mo.menuItemMakeReport.setOnAction(e->{
 			Main.changeScene(new MakeReport().initPage(role));
 		});
+		
+		// View All Book
 		mo.menuItemViewAllBook.setOnAction(e->{
 			Main.changeScene(null);
 		});
+		
+		// View All PC
 		mo.menuItemViewAllPC.setOnAction(e->{
 			Main.changeScene(new ViewAllPC().initPage(role));
 		});

@@ -10,6 +10,8 @@ import database.Connect;
 import model.PCBook;
 
 public class PCBookModel {
+	// PCBookModel menerapkan Singleton agar instance yang digunakan hanya satu dalam seluruh app.
+	
 	public static volatile PCBookModel instance = null;
 	
 	private PCBookModel() {
@@ -28,6 +30,7 @@ public class PCBookModel {
 		return instance;
 	}
 	
+	// Mendapatkan list PCBook yang tanggalnya masih tanggal-tanggal ke depan dari sekarang berdasarkan PC ID
 	public Vector<PCBook> GetPCBookedData(Integer PcID, LocalDate date) {
 		Vector<PCBook> bookList = new Vector<>();
 
@@ -57,6 +60,7 @@ public class PCBookModel {
 		return bookList;
 	}
 
+	// Pindahkan user ke PC baru
 	public void assignUsertoNewPC(Integer bookID, int newPCID) {
 		Connect con = Connect.getInstance();
 		

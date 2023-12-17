@@ -1,14 +1,11 @@
 package dao;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Vector;
 
 import database.Connect;
-import model.TransactionDetail;
 import model.TransactionHeader;
 
 public class TransactionHeaderModel {

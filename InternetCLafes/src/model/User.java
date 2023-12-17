@@ -3,6 +3,8 @@ package model;
 public class User {
 
 	private Integer UserID, UserAge;
+	
+	// User role must be either “Admin”, “Customer”, “Operator”, or “Computer Technician”
 	private String UserName, UserPassword, UserRole;
 
 	public User(Integer userID, Integer userAge, String userName, String userPassword, String userRole) {

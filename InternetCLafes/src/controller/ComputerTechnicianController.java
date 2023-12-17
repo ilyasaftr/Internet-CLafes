@@ -10,6 +10,7 @@ public class ComputerTechnicianController {
 	public MenuTechnician menuTechnician;
 	private final String role = "Computer Technician";
 	
+	// ComputerTechnicianController menggunakan Singleton pattern supaya instance hanya satu di seluruh aplikasi
 	public static volatile ComputerTechnicianController instance = null;
 	
 	public static ComputerTechnicianController getInstance() {
@@ -32,12 +33,15 @@ public class ComputerTechnicianController {
 	
 	// Menambahkan event handler onclick untuk tiap menu item
 	private void addHandlers(MenuTechnician mt) {
+		// Complete Job
 		mt.menuItemCompleteJob.setOnAction(e->{
 			Main.changeScene(null);
 		});
+		// View All PC
 		mt.menuItemViewAllPC.setOnAction(e->{
 			Main.changeScene(new ViewAllPC().initPage(role));
 		});
+		// View All Job
 		mt.menuItemViewAllJob.setOnAction(e->{
 			Main.changeScene(null);
 		});

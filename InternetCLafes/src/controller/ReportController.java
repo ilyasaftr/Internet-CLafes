@@ -39,8 +39,10 @@ public class ReportController {
 		reportModel.addNewReport(UserRole, PcID, ReportNote);
 	}
 
+	// Event handler add report
 	public void addAddReportHandler(MakeReportVar components, String role) {
 		components.btnSubmit.setOnAction(e -> {
+			// Validasi apa PC ID dan ReportNote terisi
 			if(components.PC_IDCB.getValue() == null) {
 				components.errorAlert.setContentText("PC ID can not be empty");
 				components.errorAlert.showAndWait();
@@ -50,6 +52,7 @@ public class ReportController {
 				components.errorAlert.showAndWait();
 			}
 			else {
+				// Kalau valid, tambahkan report ke database dan tampilkan confirmation message
 				addNewReport(role, components.PC_IDCB.getValue(), components.ReportNoteTxt.getText());
 				components.successAlert.setContentText("Report successfully created");
 				components.successAlert.showAndWait();

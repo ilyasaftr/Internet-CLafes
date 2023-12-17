@@ -2,6 +2,8 @@ package model;
 
 public class Job {
 	private Integer Job_ID, UserID, PC_ID;
+	
+	// Job status must be either “Complete” or “UnComplete”.
 	private String JobStatus;
 
 	public Job(Integer job_ID, Integer userID, Integer pC_ID, String jobStatus) {

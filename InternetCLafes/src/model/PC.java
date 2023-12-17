@@ -2,6 +2,8 @@ package model;
 
 public class PC {
 	private Integer PC_ID;
+	
+	// PC Condition must be either “Usable”, “Maintenance” or “Broken”.
 	private String PC_Condition;
 
 	public PC(Integer pC_ID, String pC_Condition) {
