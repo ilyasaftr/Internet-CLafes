@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import dao.PCBookModel;
 import model.PCBook;
+import view.PCBook.PCBookVar;
 import view.ViewAssignUser.ViewAssignUserVar;
 
 public class PCBookController {
@@ -81,4 +82,27 @@ public class PCBookController {
 		pcBookModel.assignUsertoNewPC(BookID, NewPCID);
 	}
 	
+	// Tambahkan Book PC baru
+	private void addNewPCBook(int PcID, int UserID, LocalDate BookDP) {
+		pcBookModel.addNewPCBook(PcID, UserID, BookDP);
+	}
+	
+	// Event handler ketika book pc
+	public void addPCBookHandler(PCBookVar components, int UserID) {
+		components.btnSubmit.setOnAction(e -> {
+			if(components.PC_IDCB.getValue() == null) {
+				components.errorAlert.setContentText("PC ID can not be empty");
+				components.errorAlert.showAndWait();
+			}
+			else if(components.BookDateDP.getValue() == null) {
+				components.errorAlert.setContentText("Book Date can not be empty");
+				components.errorAlert.showAndWait();
+			}
+			else {
+				addNewPCBook(components.PC_IDCB.getValue(), UserID, components.BookDateDP.getValue());
+				components.successAlert.setContentText("Book PC successfully booked");
+				components.successAlert.showAndWait();
+			}
+		});
+	}
 }
