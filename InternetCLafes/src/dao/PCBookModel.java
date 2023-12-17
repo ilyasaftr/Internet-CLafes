@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,6 +59,27 @@ public class PCBookModel {
 		}
 
 		return bookList;
+	}
+	
+	public void addNewPCBook(int PcID, int UserId, LocalDate BookDP) {
+		Connect con = Connect.getInstance();
+
+		String query = "INSERT INTO `pcbook`(`PC_ID`, `UserID`, `BookedDate`) VALUES (?, ?, ?)";
+
+		PreparedStatement ps = con.prepareStatement(query);
+
+		try {
+			ps.setInt(1, PcID);
+			ps.setInt(2, UserId);
+			
+			Date sqlBookDP = Date.valueOf(BookDP);
+			ps.setDate(3, sqlBookDP);
+
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// Pindahkan user ke PC baru
