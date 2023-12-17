@@ -11,7 +11,7 @@ import view.ViewAssignUser.ViewAssignUserVar;
 public class PCBookController {
 	// PCBookController menggunakan Singleton agar hanya satu instance yang terpakai di app.
 	public static volatile PCBookController instance = null;
-	
+	PCController pcCont = PCController.getInstance();
 	private PCBookController() {
 		
 	}
@@ -40,7 +40,6 @@ public class PCBookController {
 	public void addAssignPcHandler(ViewAssignUserVar components) {
 		components.btnAssign.setOnAction(e -> {
 			Integer newPCID;
-			PCController pcCont = PCController.getInstance();
 			
 			// Validasi apakah new PC ID sudah terisi, numerik, bilangan positif, ada di database, dan belum ada PC Book
 			try {
@@ -92,6 +91,12 @@ public class PCBookController {
 		components.btnSubmit.setOnAction(e -> {
 			if(components.PC_IDCB.getValue() == null) {
 				components.errorAlert.setContentText("PC ID can not be empty");
+				components.errorAlert.showAndWait();
+			}
+			// validasi apakah PC condition usable
+			else if(pcCont.getPCDetail(components.PC_IDCB.getValue()).getPC_Condition().equals("Maintenance") ||
+					pcCont.getPCDetail(components.PC_IDCB.getValue()).getPC_Condition().equals("Broken")) {
+				components.errorAlert.setContentText("PC is currently unavailable\nPick another PC");
 				components.errorAlert.showAndWait();
 			}
 			else if(components.BookDateDP.getValue() == null) {

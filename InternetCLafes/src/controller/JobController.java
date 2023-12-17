@@ -94,7 +94,7 @@ public class JobController {
 			else {
 				
 				// kalau ada pcBook, pindahkan user pengguna pc yang bersangkutan ke pc baru
-				// lalu tambahkan job baru dan perbarui data tabel
+				
 				
 				Vector<PCBook> pcBookList =  pcBookCont.GetPCBookedData(components.PC_IDCB.getValue(), LocalDate.now());
 				
@@ -104,7 +104,13 @@ public class JobController {
 					}
 				}
 				
+				// lalu tambahkan job baru
 				addNewJob(components.UserIDCB.getValue(), components.PC_IDCB.getValue());
+				
+				// lalu update pc condition jadi maintenance
+				pc.updatePCCondition(components.PC_IDCB.getValue(), "Maintenance");
+				
+//				perbarui data tabel
 				refreshTable(components);
 			}
 		});
