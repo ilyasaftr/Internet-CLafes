@@ -1,7 +1,7 @@
 package controller;
 
 import main.Main;
-import view.PCBook;
+import view.MakePCBook;
 import view.MakeReport;
 import view.MenuCustomer;
 import view.ViewAllPC;
@@ -38,7 +38,7 @@ public class CustomerController {
 	private void addHandlers(MenuCustomer mc) {
 		// Book PC
 		mc.menuItemBookPC.setOnAction(e->{
-			Main.changeScene(new PCBook().initPage(Main.user));
+			Main.changeScene(new MakePCBook().initPage(Main.user));
 		});
 		// Make Report
 		mc.menuItemMakeReport.setOnAction(e->{

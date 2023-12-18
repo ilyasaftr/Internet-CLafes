@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Vector;
 
+import controller.TransactionController;
 import database.Connect;
 import model.PCBook;
 
@@ -30,6 +32,32 @@ public class PCBookModel {
 		
 		return instance;
 	}
+	
+	// untuk mendapatkan list berisi data semua user yang terdaftar di database
+	public Vector<PCBook> getAllPcBookedData() {
+		Vector<PCBook> pcBookList = new Vector<>();
+
+		Connect con = Connect.getInstance();
+		String query = "SELECT * FROM `pcbook`";
+
+		ResultSet rs = con.execQuery(query);
+
+		try {
+			while(rs.next()) {
+				Integer BookID = rs.getInt(1);
+				Integer PcID = rs.getInt(2);
+				Integer UserID = rs.getInt(3);
+				LocalDate BookedDate = rs.getDate(4).toLocalDate();
+
+				pcBookList.add(new PCBook(BookID, PcID, UserID, BookedDate));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return pcBookList;
+	}
+	
 	
 	// Mendapatkan list PCBook yang tanggalnya masih tanggal-tanggal ke depan dari sekarang berdasarkan PC ID
 	public Vector<PCBook> GetPCBookedData(Integer PcID, LocalDate date) {
@@ -99,5 +127,27 @@ public class PCBookModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void deleteBookData(Integer bookId) {
+		Connect con = Connect.getInstance();
+		
+		String query = "DELETE FROM `pcbook` WHERE `Book_ID`=?";
+		
+		PreparedStatement ps = con.prepareStatement(query);
+		
+		try {
+			ps.setInt(1, bookId);
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void finishBook(List<PCBook> pcBookList, int StaffID) {
+		TransactionController transControl = TransactionController.getInstance();
+		transControl.addTransaction(pcBookList, StaffID);
 	}
 }
