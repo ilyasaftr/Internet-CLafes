@@ -5,7 +5,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
@@ -26,8 +25,7 @@ public class ViewTechJobDetail {
 
 		VBox vb;
 		Label titleLbl, Job_IDLbl, UserIDLbl, PC_IDLbl, JobStatusLbl;
-		public TextField Job_IDTf, UserIDTf, PC_IDTf;
-		public ComboBox<String> JobStatusCB;
+		public TextField Job_IDTf, UserIDTf, PC_IDTf, JobStatusTf;
 		
 		public Button btnUpdateJob;
 
@@ -45,7 +43,7 @@ public class ViewTechJobDetail {
 
 		components.titleLbl = new Label("View PC Details");
 
-		components.btnUpdateJob = new Button("Update Job");
+		components.btnUpdateJob = new Button("Complete Job");
 		
 		components.UserIDLbl = new Label("User ID:");
 		components.PC_IDLbl = new Label("PC ID:");
@@ -55,8 +53,7 @@ public class ViewTechJobDetail {
 		components.Job_IDTf = new TextField();
 		components.PC_IDTf = new TextField();
 		components.UserIDTf = new TextField();
-		components.JobStatusCB = new ComboBox<>();
-		components.JobStatusCB.getItems().addAll("Complete", "UnComplete");
+		components.JobStatusTf = new TextField();
 		
 		components.gp = new GridPane();
 		components.gp.add(components.Job_IDLbl, 0, 0);
@@ -66,7 +63,7 @@ public class ViewTechJobDetail {
 		components.gp.add(components.Job_IDTf, 1, 0);
 		components.gp.add(components.UserIDTf, 1, 1);
 		components.gp.add(components.PC_IDTf, 1, 2);
-		components.gp.add(components.JobStatusCB, 1, 3);
+		components.gp.add(components.JobStatusTf, 1, 3);
 		
 		components.vb = new VBox();
 		components.vb.getChildren().addAll(components.titleLbl, components.gp, components.btnUpdateJob);
@@ -84,7 +81,7 @@ public class ViewTechJobDetail {
 		components.Job_IDTf.setText(components.job.getJob_ID().toString());
 		components.PC_IDTf.setText(components.job.getPC_ID().toString());
 		components.UserIDTf.setText(components.job.getUserID().toString());
-		components.JobStatusCB.getSelectionModel().select(components.job.getJobStatus());
+		components.JobStatusTf.setText(components.job.getJobStatus());
 	}
 
 	/*
@@ -106,6 +103,9 @@ public class ViewTechJobDetail {
 		components.UserIDTf.setEditable(false);
 		components.UserIDTf.setStyle("-fx-background-color: #d3d3d3;");
 		
+		components.JobStatusTf.setEditable(false);
+		components.JobStatusTf.setStyle("-fx-background-color: #d3d3d3;");
+		
 	}
 	
 	/*
@@ -122,7 +122,7 @@ public class ViewTechJobDetail {
 		getData(jobID, components);
 		initializeAlert(components);
 		
-		jc.addUpdateTechJobHandler(components, components2);
+		jc.addCompleteTechJobHandler(components, components2);
 		
 		components.stage.show();
 	}

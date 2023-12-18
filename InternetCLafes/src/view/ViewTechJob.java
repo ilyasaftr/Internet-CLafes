@@ -19,12 +19,11 @@ import model.User;
 
 public class ViewTechJob {
 
-	// isi classnya tabel isinya semua staff job (view all jobs)
-	// di halaman ini juga bisa add job
-	// kalau select row, datanya akan ditampil ke window baru untuk update
+	// isi classnya tabel isinya semua technician job
+	// di halaman ini juga bisa complete job, caranya click job, terus dia akan buka pop up buat complete job
 	
 	/*
-	 * ViewAllJobVar berisi semua komponen UI yang digunakan di page ViewAllJob
+	 * ViewTechJobVar berisi semua komponen UI yang digunakan di page ViewTechJob
 	 */
 	public class ViewTechJobVar{
 		Scene scene;

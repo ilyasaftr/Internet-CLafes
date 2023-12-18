@@ -47,7 +47,7 @@ public class JobController {
 	}
 	
 	public void getTableDataTech(ViewTechJobVar components, Integer userId) {
-		components.jobTable.getItems().addAll(getAllJobDatByUserId(userId));
+		components.jobTable.getItems().addAll(getTechnicianJob(userId));
 	}
 	// Mendapatkan list isinya semua data job dari database lewat model
 	public Vector<Job> getAllJobData() {
@@ -55,8 +55,8 @@ public class JobController {
 	}
 	
 	// Mendapatkan list isinya semua data job by userId dari database lewat model
-	public Vector<Job> getAllJobDatByUserId(Integer userId) {
-		return jobModel.getJobByUserID(userId);
+	public Vector<Job> getTechnicianJob(Integer userId) {
+		return jobModel.getTechnicianJob(userId);
 	}
 	
 	// Menambahkan event handler Add Job
@@ -161,23 +161,21 @@ public class JobController {
 		});
 	}
 	
-	// mengurus event handler untuk update job
-	public void addUpdateTechJobHandler(ViewTechJobDetailVar viewTechJobDetailVar, ViewTechJobVar viewTechJobVar) {
+	// mengurus event handler untuk complete job
+	public void addCompleteTechJobHandler(ViewTechJobDetailVar viewTechJobDetailVar, ViewTechJobVar viewTechJobVar) {
 		viewTechJobDetailVar.btnUpdateJob.setOnAction(e -> {
-			// validasi apakah job status combo box isinya Complete atau UnComplete
-			if(!(viewTechJobDetailVar.JobStatusCB.getValue().equals("Complete") ||
-					viewTechJobDetailVar.JobStatusCB.getValue().equals("UnComplete"))) {
-				viewTechJobDetailVar.alert.setContentText("You must select a valid PC Condition");
+			if(viewTechJobDetailVar.JobStatusTf.getText().equals("Complete")) {
+				viewTechJobDetailVar.alert.setContentText("You must select jobs with UnComplete status");
 				viewTechJobDetailVar.alert.showAndWait();
+				return;
 			}
 			
-			// kalau sudah valid, update job status
-			updateJobStatus(Integer.parseInt(viewTechJobDetailVar.Job_IDTf.getText()), viewTechJobDetailVar.JobStatusCB.getValue());
+			// kalau sudah valid, update job status jadi Complete
+			updateJobStatus(Integer.parseInt(viewTechJobDetailVar.Job_IDTf.getText()), "Complete");
 			
 			// lalu setelah itu, update juga PC Condition
 			// kalau Job complete, PC jadi Usable
-			// kalau UnComplete, PC jadi Maintenance
-			pc.updatePCCondition(Integer.parseInt(viewTechJobDetailVar.PC_IDTf.getText()), (viewTechJobDetailVar.JobStatusCB.getValue().equals("Complete"))? "Usable": "Maintenance");
+			pc.updatePCCondition(Integer.parseInt(viewTechJobDetailVar.PC_IDTf.getText()), "Usable");
 			
 			// perbarui data tabel
 			refreshTableTech(viewTechJobVar, Integer.parseInt(viewTechJobDetailVar.UserIDTf.getText()));
@@ -190,11 +188,6 @@ public class JobController {
 	// untuk memperbarui data jobstatus dari sebuah job
 	public void updateJobStatus(Integer JobID, String JobStatus) {
 		jobModel.updateJobStatus(JobID, JobStatus);
-	}
-	
-	// mendapatkan job dari userID
-	public Job getTechnicianJob(Integer UserID) {
-		return jobModel.getTechnicianJob(UserID);
 	}
 	
 	// mendapatkan job dari jobId
