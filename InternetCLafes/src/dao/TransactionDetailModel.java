@@ -3,9 +3,12 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Vector;
 
+import controller.PCBookController;
 import database.Connect;
 import model.PCBook;
 import model.TransactionDetail;
@@ -90,7 +93,26 @@ public class TransactionDetailModel {
 	}
 	
 	// method untuk menambahkan transaction detail
-	public void addNewTransactionDetail(int transactionID, Vector<PCBook> listPcBook) {
-		
+	public void addTransactionDetail(int TransactionID, List<PCBook> pcBookList) {
+		Connect con = Connect.getInstance();
+		for (PCBook pcBook : pcBookList) {
+			String insertTransactionQuery = "INSERT INTO `transactiondetail`(`TransactionID`, `PC_ID`, `CustomerName`, BookedTime) VALUES (?, ?, ?, ?)";
+			PreparedStatement insertPs = con.prepareStatement(insertTransactionQuery);
+
+			try {
+				insertPs.setInt(1, TransactionID);
+				insertPs.setInt(2, pcBook.getPC_ID());
+				insertPs.setString(3, "A");
+				LocalTime currentTime = LocalTime.now();
+				Time sqlTime = Time.valueOf(currentTime);
+				insertPs.setTime(4, sqlTime);
+				insertPs.executeUpdate();
+				
+				PCBookController pcbControlller = PCBookController.getInstance();
+				pcbControlller.deleteBookData(pcBook.getBook_ID());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+        }
 	}
 }

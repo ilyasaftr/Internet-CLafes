@@ -6,13 +6,10 @@ import java.util.List;
 import java.util.Vector;
 
 import dao.PCBookModel;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableSelectionModel;
 import model.PCBook;
-import model.User;
 import view.MakePCBook.PCBookVar;
 import view.ViewPCBooked.ViewPCBookedVar;
 import view.ViewAssignUser.ViewAssignUserVar;
@@ -122,11 +119,11 @@ public class PCBookController {
 		getData(components);
 	}
 	
-	// handler event change user role (mouse click table dan button change role)
-	public void addChangeRoleHandler(ViewPCBookedVar components, int StaffID) {
+	// handler event view PC Booked page
+	public void addViewPCBookedHandler(ViewPCBookedVar components, int StaffID) {
 		List<PCBook> selectedPCBook = new ArrayList<>();
 
-		// mengatur logic kalau ada record di table staff yang di select
+		// mengatur logic kalau ada record di table pc book yang di select
 		components.pcBookTable.setOnMouseClicked(e -> {
 			TableSelectionModel<PCBook> tableSelectionModel = components.pcBookTable.getSelectionModel();
 
@@ -148,7 +145,7 @@ public class PCBookController {
 		});
 		
 
-		// atur logic kalau button change role ditekan
+		// atur logic kalau button finish book ditekan
 		components.btnFinishBook.setOnAction(e -> {
 			pcBookModel.finishBook(selectedPCBook, StaffID);
 			components.successAlert.setContentText("Book PC successfully finished");
@@ -156,24 +153,45 @@ public class PCBookController {
 			refreshTable(components);
 		});
 		
-		// atur logic kalau button change role ditekan
+		// atur logic kalau button cancel book ditekan
 		components.btnCancelBook.setOnAction(e -> {
-			for (PCBook pcBook : selectedPCBook) {
-				pcBookModel.deleteBookData(pcBook.getBook_ID());
+			if(selectedPCBook.isEmpty()) {
+				components.noRowAlert.showAndWait();
 			}
-			components.successAlert.setContentText("Book PC successfully canceled");
-			components.successAlert.showAndWait();
-			refreshTable(components);
+			// asumsi cancel book hanya bisa satu per satu
+			else if(selectedPCBook.size() != 1) {
+				components.invalidDataAlert.setContentText("You must select only one PC Book data");
+				components.invalidDataAlert.showAndWait();
+			}
+			else if(selectedPCBook.get(0).getBookedDate().isAfter(LocalDate.now())) {
+				components.invalidDataAlert.setContentText("PC Booked Date already passed today's date");
+				components.invalidDataAlert.showAndWait();
+			}
+			else {
+				pcBookModel.deleteBookData(selectedPCBook.get(0).getBook_ID());
+				components.successAlert.setContentText("Book PC successfully cancelled");
+				components.successAlert.showAndWait();
+				refreshTable(components);
+			}
 		});
 	}
 
 	// Event handler ketika book pc
 	public void addPCBookHandler(PCBookVar components, int UserID) {
 		components.btnSubmit.setOnAction(e -> {
+			PCController pcCont = PCController.getInstance();
+			
 			if (components.PC_IDCB.getValue() == null) {
 				components.errorAlert.setContentText("PC ID can not be empty");
 				components.errorAlert.showAndWait();
-			} else if (components.BookDateDP.getValue() == null) {
+			}
+			// validasi apakah PC condition usable
+			else if(pcCont.getPCDetail(components.PC_IDCB.getValue()).getPC_Condition().equals("Maintenance") ||
+					pcCont.getPCDetail(components.PC_IDCB.getValue()).getPC_Condition().equals("Broken")) {
+				components.errorAlert.setContentText("PC is currently unavailable\nPick another PC");
+				components.errorAlert.showAndWait();
+			}
+			else if (components.BookDateDP.getValue() == null) {
 				components.errorAlert.setContentText("Book Date can not be empty");
 				components.errorAlert.showAndWait();
 			} else {

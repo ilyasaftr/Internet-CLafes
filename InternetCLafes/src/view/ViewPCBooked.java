@@ -5,7 +5,6 @@ import java.util.Vector;
 
 import controller.OperatorController;
 import controller.PCBookController;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -17,6 +16,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.PCBook;
 import model.User;
@@ -41,6 +41,7 @@ public class ViewPCBooked {
 		ScrollPane sp;
 		
 		VBox vb;
+		HBox hb;
 		
 		public Alert noRowAlert, invalidDataAlert, successAlert;
 		
@@ -65,9 +66,12 @@ public class ViewPCBooked {
 		components.btnFinishBook = new Button("Finish Book");
 		components.btnCancelBook = new Button("Cancel Book");
 		
-		components.vb = new VBox();
-		components.vb.getChildren().addAll(components.sp, components.btnFinishBook, components.btnCancelBook);
+		components.hb = new HBox();
+		components.hb.getChildren().addAll(components.btnFinishBook, components.btnCancelBook);
 		
+		components.vb = new VBox();
+		components.vb.getChildren().addAll(components.sp, components.hb);
+				
 		components.bp = new BorderPane();
 		components.bp.setCenter(components.titleLbl);
 		components.bp.setBottom(components.vb);
@@ -81,15 +85,14 @@ public class ViewPCBooked {
 	private void setStyle(ViewPCBookedVar components) {
 		
 		// atur ukuran lebar setiap kolom menggunakan binding
-		components.bookIDCol.prefWidthProperty().bind(components.pcBookTable.widthProperty().divide(10).multiply(2));
-		components.pcIDCol.prefWidthProperty().bind(components.pcBookTable.widthProperty().divide(10).multiply(2));
-		components.userIDCol.prefWidthProperty().bind(components.pcBookTable.widthProperty().divide(10).multiply(2));
-		components.bookedDateCol.prefWidthProperty().bind(components.pcBookTable.widthProperty().divide(10).multiply(2));
-		
-		VBox.setMargin(components.btnFinishBook, new Insets(5));
-		VBox.setMargin(components.btnCancelBook, new Insets(5));
+		components.bookIDCol.prefWidthProperty().bind(components.pcBookTable.widthProperty().divide(8).multiply(2));
+		components.pcIDCol.prefWidthProperty().bind(components.pcBookTable.widthProperty().divide(8).multiply(2));
+		components.userIDCol.prefWidthProperty().bind(components.pcBookTable.widthProperty().divide(8).multiply(2));
+		components.bookedDateCol.prefWidthProperty().bind(components.pcBookTable.widthProperty().divide(8).multiply(2));
 
 		components.vb.setSpacing(30);
+		
+		components.hb.setSpacing(15);
 	}
 
 	/*
@@ -129,7 +132,7 @@ public class ViewPCBooked {
 		setStyle(components);
 		
 		PCBookController pc = PCBookController.getInstance();
-		pc.addChangeRoleHandler(components, user.getUserID());
+		pc.addViewPCBookedHandler(components, user.getUserID());
 		
 		components.bp.setTop(OperatorController.instance.menuOperator.menuBar);
 
@@ -144,7 +147,6 @@ public class ViewPCBooked {
 		
 		components.invalidDataAlert = new Alert(AlertType.ERROR);
 		components.invalidDataAlert.setTitle("Error");
-		components.invalidDataAlert.setContentText("Invalid data!");
 
 		components.successAlert = new Alert(AlertType.INFORMATION);
 		components.successAlert.setTitle("Success");
