@@ -3,6 +3,9 @@ package controller;
 import main.Main;
 import view.MenuTechnician;
 import view.ViewAllPC;
+import view.ViewTechJob;
+import view.ViewTechJob.ViewTechJobVar;
+import view.ViewTechJobDetail;
 
 public class ComputerTechnicianController {
 	// Class ini dianggap sebagai Computer Technician Menu Controller, dia yang mengatur event handler dan validasi dari bagian Menu dari role Computer Technician
@@ -43,7 +46,12 @@ public class ComputerTechnicianController {
 		});
 		// View All Job
 		mt.menuItemViewAllJob.setOnAction(e->{
-			Main.changeScene(null);
+			Main.changeScene(new ViewTechJob().initPage(Main.user));
 		});
+	}
+	
+	// Membuat window baru khusus buat job detail
+	public void createJobDetailWindow(Integer jobID, ViewTechJobVar components) {
+		new ViewTechJobDetail().initPage(role, jobID, components);
 	}
 }

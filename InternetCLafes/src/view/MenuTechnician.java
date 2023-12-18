@@ -9,7 +9,7 @@ public class MenuTechnician {
 	
 	public MenuBar menuBar;
 	Menu menuPC, menuJob;
-	public MenuItem menuItemViewAllPC, menuItemViewAllJob, menuItemCompleteJob;
+	public MenuItem menuItemViewAllPC, menuItemViewAllJob;
 
 	public void initialize() {
 		menuBar = new MenuBar();
@@ -21,10 +21,9 @@ public class MenuTechnician {
 
 		menuItemViewAllPC = new MenuItem("View All PCs");
 		menuItemViewAllJob = new MenuItem("View All Jobs");
-		menuItemCompleteJob = new MenuItem("Complete Job");
 		
 		menuPC.getItems().addAll(menuItemViewAllPC);
-		menuJob.getItems().addAll(menuItemViewAllJob, menuItemCompleteJob);
+		menuJob.getItems().addAll(menuItemViewAllJob);
 		
 	}
 }

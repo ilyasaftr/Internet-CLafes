@@ -11,6 +11,8 @@ import model.PCBook;
 import model.User;
 import view.ViewAllJob.ViewAllJobVar;
 import view.ViewJobDetail.ViewJobDetailVar;
+import view.ViewTechJob.ViewTechJobVar;
+import view.ViewTechJobDetail.ViewTechJobDetailVar;
 
 public class JobController {
 	// Job Controller menggunakan Singleton agar hanya satu instance yang terpakai di app.
@@ -43,10 +45,18 @@ public class JobController {
 	public void getTableData(ViewAllJobVar components) {
 		components.jobTable.getItems().addAll(getAllJobData());
 	}
-
+	
+	public void getTableDataTech(ViewTechJobVar components, Integer userId) {
+		components.jobTable.getItems().addAll(getAllJobDatByUserId(userId));
+	}
 	// Mendapatkan list isinya semua data job dari database lewat model
 	public Vector<Job> getAllJobData() {
 		return jobModel.getAllJobData();
+	}
+	
+	// Mendapatkan list isinya semua data job by userId dari database lewat model
+	public Vector<Job> getAllJobDatByUserId(Integer userId) {
+		return jobModel.getJobByUserID(userId);
 	}
 	
 	// Menambahkan event handler Add Job
@@ -151,6 +161,32 @@ public class JobController {
 		});
 	}
 	
+	// mengurus event handler untuk update job
+	public void addUpdateTechJobHandler(ViewTechJobDetailVar viewTechJobDetailVar, ViewTechJobVar viewTechJobVar) {
+		viewTechJobDetailVar.btnUpdateJob.setOnAction(e -> {
+			// validasi apakah job status combo box isinya Complete atau UnComplete
+			if(!(viewTechJobDetailVar.JobStatusCB.getValue().equals("Complete") ||
+					viewTechJobDetailVar.JobStatusCB.getValue().equals("UnComplete"))) {
+				viewTechJobDetailVar.alert.setContentText("You must select a valid PC Condition");
+				viewTechJobDetailVar.alert.showAndWait();
+			}
+			
+			// kalau sudah valid, update job status
+			updateJobStatus(Integer.parseInt(viewTechJobDetailVar.Job_IDTf.getText()), viewTechJobDetailVar.JobStatusCB.getValue());
+			
+			// lalu setelah itu, update juga PC Condition
+			// kalau Job complete, PC jadi Usable
+			// kalau UnComplete, PC jadi Maintenance
+			pc.updatePCCondition(Integer.parseInt(viewTechJobDetailVar.PC_IDTf.getText()), (viewTechJobDetailVar.JobStatusCB.getValue().equals("Complete"))? "Usable": "Maintenance");
+			
+			// perbarui data tabel
+			refreshTableTech(viewTechJobVar, Integer.parseInt(viewTechJobDetailVar.UserIDTf.getText()));
+			
+			// kalau sudah update, tutup window
+			viewTechJobDetailVar.stage.close();
+		});
+	}
+	
 	// untuk memperbarui data jobstatus dari sebuah job
 	public void updateJobStatus(Integer JobID, String JobStatus) {
 		jobModel.updateJobStatus(JobID, JobStatus);
@@ -183,10 +219,34 @@ public class JobController {
 			}
 		});
 	}
-
+	
+	// event handler dari View Job Detail
+	// kalau tekan tombol, dia akan buka window baru isinya job detail
+	public void addViewTechJobDetailHandler(ViewTechJobVar components) {
+		components.jobTable.setOnMouseClicked(e -> {
+			TableSelectionModel<Job> tableSelectionModel = 			components.jobTable.getSelectionModel();
+			
+			tableSelectionModel.setSelectionMode(SelectionMode.SINGLE);
+			
+			// menampung selected item dari table
+			Job job = tableSelectionModel.getSelectedItem();
+			
+			// kalau job ada yang di-select
+			if(job != null) {
+				ComputerTechnicianController.getInstance().createJobDetailWindow(job.getJob_ID(), components);
+			}
+		});
+	}
+	
 	// perbarui data tabel
 	private void refreshTable(ViewAllJobVar components) {
 		components.jobTable.getItems().clear();
 		getTableData(components);
+	}
+	
+	// perbarui data tabel
+	private void refreshTableTech(ViewTechJobVar components, Integer userId) {
+		components.jobTable.getItems().clear();
+		getTableDataTech(components, userId);
 	}
 }
