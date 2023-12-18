@@ -59,7 +59,7 @@ public class PCBookModel {
 	
 	
 	// Mendapatkan list PCBook yang tanggalnya masih tanggal-tanggal ke depan dari sekarang berdasarkan PC ID
-	public Vector<PCBook> GetPCBookedData(Integer PcID, LocalDate date) {
+	public Vector<PCBook> GetFuturePCBookedData(Integer PcID, LocalDate date) {
 		Vector<PCBook> bookList = new Vector<>();
 
 		Connect con = Connect.getInstance();
@@ -87,6 +87,36 @@ public class PCBookModel {
 
 		return bookList;
 	}
+	
+	// Mendapatkan list PCBook berdasarkan PC ID dan tanggal book
+		public Vector<PCBook> GetPCBookedData(Integer PcID, LocalDate date) {
+			Vector<PCBook> bookList = new Vector<>();
+
+			Connect con = Connect.getInstance();
+			
+			String query = "SELECT * FROM `pcbook` WHERE `PC_ID` = ? AND `BookedDate` = ?;";
+			PreparedStatement ps = con.prepareStatement(query);
+
+			try {
+				ps.setInt(1, PcID);
+				ps.setObject(2, date);
+				
+				ResultSet rs = ps.executeQuery();
+				
+				while(rs.next()) {
+					
+					Integer Book_ID = rs.getInt("Book_ID");
+					Integer PC_ID = rs.getInt("PC_ID");
+					Integer UserID = rs.getInt("UserID");
+					LocalDate BookedDate = rs.getObject("BookedDate", LocalDate.class);
+					bookList.add(new PCBook(Book_ID, PC_ID, UserID, BookedDate));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			return bookList;
+		}
 	
 	public void addNewPCBook(int PcID, int UserId, LocalDate BookDP) {
 		Connect con = Connect.getInstance();

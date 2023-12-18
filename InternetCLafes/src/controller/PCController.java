@@ -197,7 +197,7 @@ TableSelectionModel<PC> tableSelectionModel = components.pcTable.getSelectionMod
 			else {
 				PCBookController pcBookControl = PCBookController.getInstance();
 				
-				if(!pcBookControl.GetPCBookedData(Integer.parseInt(viewPCDetailVar.pcIdTf.getText()), LocalDate.now()).isEmpty()) {
+				if(!pcBookControl.GetFuturePCBookedData(Integer.parseInt(viewPCDetailVar.pcIdTf.getText()), LocalDate.now()).isEmpty()) {
 					viewPCDetailVar.alert.setContentText("PC still has book list in the future");
 					viewPCDetailVar.alert.showAndWait();
 				}

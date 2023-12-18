@@ -58,11 +58,15 @@ public class PCBookController {
 
 	// Mendapatkan list PCBook yang tanggalnya masih tanggal-tanggal ke depan dari
 	// sekarang berdasarkan PC ID
+	public Vector<PCBook> GetFuturePCBookedData(Integer PcID, LocalDate date) {
+		return pcBookModel.GetFuturePCBookedData(PcID, date);
+	}
+	
 	public Vector<PCBook> GetPCBookedData(Integer PcID, LocalDate date) {
 		return pcBookModel.GetPCBookedData(PcID, date);
 	}
 
-	// Event handler untuk assign pc
+	// Event handler untuk assign pc dari add job
 	public void addAssignPcHandler(ViewAssignUserVar components) {
 		components.btnAssign.setOnAction(e -> {
 			Integer newPCID;
@@ -88,7 +92,7 @@ public class PCBookController {
 			} else if (pcCont.getPCDetail(newPCID) == null) {
 				components.alert.setContentText("New PC ID does not exist in database");
 				components.alert.showAndWait();
-			} else if (!GetPCBookedData(newPCID, LocalDate.now()).isEmpty()) {
+			} else if (!GetPCBookedData(newPCID, components.pcBook.getBookedDate()).isEmpty()) {
 				components.alert.setContentText("New PC ID is already booked");
 				components.alert.showAndWait();
 			} else {
@@ -99,6 +103,7 @@ public class PCBookController {
 		});
 	}
 	
+//	Event handler untuk assign pc dari view assign pc
 	public void addAssignPcHandler(ViewAssignUserVar viewAssignUserVar, ViewPCBookedVar viewPCBookedVar) {
 		viewAssignUserVar.btnAssign.setOnAction(e -> {
 			Integer newPCID;
@@ -124,7 +129,7 @@ public class PCBookController {
 			} else if (pcCont.getPCDetail(newPCID) == null) {
 				viewAssignUserVar.alert.setContentText("New PC ID does not exist in database");
 				viewAssignUserVar.alert.showAndWait();
-			} else if (!GetPCBookedData(newPCID, LocalDate.now()).isEmpty()) {
+			} else if (!GetPCBookedData(newPCID, viewAssignUserVar.pcBook.getBookedDate()).isEmpty()) {
 				viewAssignUserVar.alert.setContentText("New PC ID is already booked");
 				viewAssignUserVar.alert.showAndWait();
 			} else {

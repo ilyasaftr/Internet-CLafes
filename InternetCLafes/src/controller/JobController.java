@@ -93,10 +93,9 @@ public class JobController {
 			}
 			else {
 				
-				// kalau ada pcBook, pindahkan user pengguna pc yang bersangkutan ke pc baru
+				// kalau ada pcBook di waktu sekarang dan ke depannya, pindahkan user pengguna pc yang bersangkutan ke pc baru
 				
-				
-				Vector<PCBook> pcBookList =  pcBookCont.GetPCBookedData(components.PC_IDCB.getValue(), LocalDate.now());
+				Vector<PCBook> pcBookList =  pcBookCont.GetFuturePCBookedData(components.PC_IDCB.getValue(), LocalDate.now());
 				
 				if(!pcBookList.isEmpty()) {
 					for(PCBook pcBook : pcBookList) {
