@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Vector;
 
-import controller.TransactionController;
 import database.Connect;
 import model.PCBook;
 
@@ -146,8 +145,7 @@ public class PCBookModel {
 		}
 	}
 	
-	public void finishBook(List<PCBook> pcBookList, int StaffID) {
-		TransactionController transControl = TransactionController.getInstance();
-		transControl.addTransaction(pcBookList, StaffID);
+	public List<PCBook> finishBook(List<PCBook> pcBookList) {
+		return pcBookList;
 	}
 }

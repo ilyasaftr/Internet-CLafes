@@ -48,13 +48,13 @@ public class TransactionDetailModel {
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				
+				Integer TransactionDetailID = rs.getInt("TransactionDetailID");
 				Integer TransactionID = rs.getInt("TransactionID");
 				Integer PC_ID = rs.getInt("PC_ID");
 				String CustomerName = rs.getString("CustomerName");
 				LocalTime BookedTime = rs.getObject("BookedTime", LocalTime.class);
 
-				transList.add(new TransactionDetail(TransactionID, PC_ID, CustomerName, BookedTime));
+				transList.add(new TransactionDetail(TransactionID, PC_ID, TransactionDetailID, CustomerName, BookedTime));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -77,13 +77,13 @@ public class TransactionDetailModel {
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				
+				Integer TransactionDetailID = rs.getInt("TransactionDetailID");
 				Integer TransactionID = rs.getInt("TransactionID");
 				Integer PC_ID = rs.getInt("PC_ID");
 				String CustomerName = rs.getString("CustomerName");
 				LocalTime BookedTime = rs.getObject("BookedTime", LocalTime.class);
 
-				transList.add(new TransactionDetail(TransactionID, PC_ID, CustomerName, BookedTime));
+				transList.add(new TransactionDetail(TransactionID, PC_ID, TransactionDetailID, CustomerName, BookedTime));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -95,14 +95,18 @@ public class TransactionDetailModel {
 	// method untuk menambahkan transaction detail
 	public void addTransactionDetail(int TransactionID, List<PCBook> pcBookList) {
 		Connect con = Connect.getInstance();
+		UserModel um = UserModel.getInstance();
+		
 		for (PCBook pcBook : pcBookList) {
 			String insertTransactionQuery = "INSERT INTO `transactiondetail`(`TransactionID`, `PC_ID`, `CustomerName`, BookedTime) VALUES (?, ?, ?, ?)";
 			PreparedStatement insertPs = con.prepareStatement(insertTransactionQuery);
 
 			try {
+				String custName = um.getUserData(pcBook.getUserID()).getUserName();
+				
 				insertPs.setInt(1, TransactionID);
 				insertPs.setInt(2, pcBook.getPC_ID());
-				insertPs.setString(3, "A");
+				insertPs.setString(3, custName);
 				LocalTime currentTime = LocalTime.now();
 				Time sqlTime = Time.valueOf(currentTime);
 				insertPs.setTime(4, sqlTime);

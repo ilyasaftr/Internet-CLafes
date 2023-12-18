@@ -128,11 +128,6 @@ public class PCBookController {
 			TableSelectionModel<PCBook> tableSelectionModel = components.pcBookTable.getSelectionModel();
 
 			tableSelectionModel.setSelectionMode(SelectionMode.MULTIPLE);
-			PCBook pcbook = tableSelectionModel.getSelectedItem();
-			if (pcbook != null) {
-				selectedPCBook.clear();
-				selectedPCBook.add(pcbook);
-			}
 			
 			// menampung selected item dari table
 			ObservableList<PCBook> pcbookList = tableSelectionModel.getSelectedItems();
@@ -147,7 +142,23 @@ public class PCBookController {
 
 		// atur logic kalau button finish book ditekan
 		components.btnFinishBook.setOnAction(e -> {
-			pcBookModel.finishBook(selectedPCBook, StaffID);
+			pcBookModel.finishBook(selectedPCBook);
+			
+			for(PCBook pcBook: selectedPCBook) {
+				if(!pcBook.getBookedDate().isBefore(LocalDate.now())) {
+					components.invalidDataAlert.setContentText("PC Booked Data Has Not Passed Yet");
+					components.invalidDataAlert.showAndWait();
+					return;
+				}
+			}
+			
+			for(PCBook pcBook: selectedPCBook) {
+				pcBookModel.deleteBookData(pcBook.getBook_ID());
+			}
+			
+			TransactionController transControl = TransactionController.getInstance();
+			transControl.addTransaction(selectedPCBook, StaffID);
+			
 			components.successAlert.setContentText("Book PC successfully finished");
 			components.successAlert.showAndWait();
 			refreshTable(components);

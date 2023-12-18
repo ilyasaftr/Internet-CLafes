@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2023 at 02:13 AM
+-- Generation Time: Dec 18, 2023 at 04:15 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -118,6 +118,7 @@ INSERT INTO `report` (`Report_ID`, `UserRole`, `PC_ID`, `ReportNote`, `ReportDat
 --
 
 CREATE TABLE `transactiondetail` (
+  `TransactionDetailID` int(11) NOT NULL,
   `TransactionID` int(11) NOT NULL,
   `PC_ID` int(11) NOT NULL,
   `CustomerName` varchar(255) NOT NULL,
@@ -128,10 +129,10 @@ CREATE TABLE `transactiondetail` (
 -- Dumping data for table `transactiondetail`
 --
 
-INSERT INTO `transactiondetail` (`TransactionID`, `PC_ID`, `CustomerName`, `BookedTime`) VALUES
-(1, 1, 'Christopher', '18:30:00'),
-(2, 3, 'Christopher', '17:00:00'),
-(3, 3, 'Christopher', '19:00:00');
+INSERT INTO `transactiondetail` (`TransactionDetailID`, `TransactionID`, `PC_ID`, `CustomerName`, `BookedTime`) VALUES
+(1, 1, 1, 'Christopher', '18:30:00'),
+(2, 2, 3, 'Christopher', '17:00:00'),
+(3, 3, 3, 'Christopher', '19:00:00');
 
 -- --------------------------------------------------------
 
@@ -201,6 +202,7 @@ ALTER TABLE `pc`
 -- Indexes for table `pcbook`
 --
 ALTER TABLE `pcbook`
+  ADD PRIMARY KEY (`Book_ID`),
   ADD KEY `PC_ID` (`PC_ID`),
   ADD KEY `UserID` (`UserID`);
 
@@ -215,7 +217,8 @@ ALTER TABLE `report`
 -- Indexes for table `transactiondetail`
 --
 ALTER TABLE `transactiondetail`
-  ADD PRIMARY KEY (`TransactionID`,`PC_ID`),
+  ADD PRIMARY KEY (`TransactionDetailID`),
+  ADD KEY `TransactionID` (`TransactionID`),
   ADD KEY `PC_ID` (`PC_ID`);
 
 --
@@ -260,6 +263,12 @@ ALTER TABLE `report`
   MODIFY `Report_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `transactiondetail`
+--
+ALTER TABLE `transactiondetail`
+  MODIFY `TransactionDetailID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `transactionheader`
 --
 ALTER TABLE `transactionheader`
@@ -299,6 +308,7 @@ ALTER TABLE `report`
 -- Constraints for table `transactiondetail`
 --
 ALTER TABLE `transactiondetail`
+  ADD CONSTRAINT `transactiondetail_ibfk_1` FOREIGN KEY (`TransactionID`) REFERENCES `transactionheader` (`TransactionID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `transactiondetail_ibfk_2` FOREIGN KEY (`PC_ID`) REFERENCES `pc` (`PC_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

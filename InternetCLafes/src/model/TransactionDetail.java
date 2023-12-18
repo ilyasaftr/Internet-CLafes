@@ -3,14 +3,16 @@ package model;
 import java.time.LocalTime;
 
 public class TransactionDetail {
-	private Integer TransactionID, PC_ID;
+	private Integer TransactionID, PC_ID, TransactionDetailID;
 	private String CustomerName;
 	private LocalTime BookedTime;
 
-	public TransactionDetail(Integer transactionID, Integer pC_ID, String customerName, LocalTime bookedTime) {
+	public TransactionDetail(Integer transactionID, Integer pC_ID, Integer transactionDetailID, String customerName,
+			LocalTime bookedTime) {
 		super();
 		TransactionID = transactionID;
 		PC_ID = pC_ID;
+		TransactionDetailID = transactionDetailID;
 		CustomerName = customerName;
 		BookedTime = bookedTime;
 	}
@@ -47,5 +49,14 @@ public class TransactionDetail {
 		BookedTime = bookedTime;
 	}
 
+	public Integer getTransactionDetailID() {
+		return TransactionDetailID;
+	}
 
+	public void setTransactionDetailID(Integer transactionDetailID) {
+		TransactionDetailID = transactionDetailID;
+	}
+
+	
+	
 }

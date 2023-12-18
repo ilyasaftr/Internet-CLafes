@@ -47,6 +47,7 @@ public class TransactionController {
 	public void addTransaction(List<PCBook> pcBookList, int StaffID) {
 		LocalDate currentDate = LocalDate.now(); 
 		int transactionId = transactionHeaderModel.addNewTransactionHeader(StaffID, currentDate);
+		
 		transactionDetailModel.addTransactionDetail(transactionId, pcBookList);
 	}
 

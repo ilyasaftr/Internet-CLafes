@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import controller.OperatorController;
 import controller.PCBookController;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -93,6 +94,7 @@ public class ViewPCBooked {
 		components.vb.setSpacing(30);
 		
 		components.hb.setSpacing(15);
+		components.hb.setPadding(new Insets(10));
 	}
 
 	/*

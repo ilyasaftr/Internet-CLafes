@@ -158,4 +158,38 @@ public class UserModel {
 		
 		return (userList.isEmpty())? null: userList.firstElement();
 	}
+	
+	// Digunakan untuk mendapatkan data user dengan user ID
+		public User getUserData(Integer UserID) {
+			Vector<User> userList = new Vector<>();
+			
+			Connect con = Connect.getInstance();
+			
+			// untuk filtering data User berdasarkan ID
+			String query = "SELECT * FROM `user` WHERE `UserID` = ?";
+
+			PreparedStatement ps = con.prepareStatement(query);
+			ResultSet rs;
+			
+			try {
+				ps.setInt(1, UserID);
+				
+				rs = ps.executeQuery();
+				
+				while(rs.next()) {
+					Integer userID = rs.getInt(1);
+					String UserName = rs.getString(2);
+					String UserPassword = rs.getString(3);
+					Integer UserAge = rs.getInt(4);
+					String UserRole = rs.getString(5);
+
+					userList.add(new User(userID, UserAge, UserName, UserPassword, UserRole));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return (userList.isEmpty())? null: userList.firstElement();
+		}
 }

@@ -36,6 +36,7 @@ public class ViewCustomerTransaction {
 		ScrollPane sp;
 		
 		public TableView<TransactionDetail> transactionTable;
+		TableColumn<TransactionDetail, Integer> TransactionDetailIDCol;
 		TableColumn<TransactionDetail, Integer> TransactionIDCol;
 		TableColumn<TransactionDetail, Integer> PC_IDCol;
 		TableColumn<TransactionDetail, String> CustomerNameCol;
@@ -75,16 +76,19 @@ public class ViewCustomerTransaction {
 	private void initializeTable(ViewCustomerTransactionVar components) {
 		components.transactionTable = new TableView<>();
 
+		components.TransactionDetailIDCol = new TableColumn<>("Transaction Detail ID");
 		components.TransactionIDCol = new TableColumn<>("Transaction ID");
 		components.PC_IDCol = new TableColumn<>("PC ID");
 		components.CustomerNameCol = new TableColumn<>("Customer Name");
 		components.BookedTimeCol = new TableColumn<>("Booked Time");
 
+		components.transactionTable.getColumns().add(components.TransactionDetailIDCol);
 		components.transactionTable.getColumns().add(components.TransactionIDCol);
 		components.transactionTable.getColumns().add(components.PC_IDCol);
 		components.transactionTable.getColumns().add(components.CustomerNameCol);
 		components.transactionTable.getColumns().add(components.BookedTimeCol);
 		
+		components.TransactionDetailIDCol.setCellValueFactory(new PropertyValueFactory<>("TransactionDetailID"));
 		components.TransactionIDCol.setCellValueFactory(new PropertyValueFactory<>("TransactionID"));
 		components.PC_IDCol.setCellValueFactory(new PropertyValueFactory<>("PC_ID"));
 		components.CustomerNameCol.setCellValueFactory(new PropertyValueFactory<>("CustomerName"));
@@ -97,10 +101,11 @@ public class ViewCustomerTransaction {
 	private void setStyle(ViewCustomerTransactionVar components) {
 		
 		// atur ukuran lebar setiap kolom menggunakan binding
-		components.TransactionIDCol.prefWidthProperty().bind(components.transactionTable.widthProperty().divide(8).multiply(1));
-		components.PC_IDCol.prefWidthProperty().bind(components.transactionTable.widthProperty().divide(8).multiply(1));
-		components.CustomerNameCol.prefWidthProperty().bind(components.transactionTable.widthProperty().divide(8).multiply(3));
-		components.BookedTimeCol.prefWidthProperty().bind(components.transactionTable.widthProperty().divide(8).multiply(3));
+		components.TransactionDetailIDCol.prefWidthProperty().bind(components.transactionTable.widthProperty().divide(10).multiply(3));
+		components.TransactionIDCol.prefWidthProperty().bind(components.transactionTable.widthProperty().divide(10).multiply(1));
+		components.PC_IDCol.prefWidthProperty().bind(components.transactionTable.widthProperty().divide(10).multiply(1));
+		components.CustomerNameCol.prefWidthProperty().bind(components.transactionTable.widthProperty().divide(10).multiply(3));
+		components.BookedTimeCol.prefWidthProperty().bind(components.transactionTable.widthProperty().divide(10).multiply(2));
 		
 		BorderPane.setAlignment(components.titleLbl, Pos.CENTER);
 		BorderPane.setAlignment(components.sp, Pos.CENTER);

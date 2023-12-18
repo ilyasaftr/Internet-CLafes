@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS `internet-clafes`;
 CREATE DATABASE `internet-clafes`;
 USE `internet-clafes`;
 
@@ -73,15 +74,14 @@ INSERT INTO `transactionheader` (`TransactionID`, `StaffID`, `StaffName`, `Trans
 (3, 4, 'Blundetto', '2023-12-03');
 
 CREATE TABLE `TransactionDetail`(
+	TransactionDetailID INT PRIMARY KEY AUTO_INCREMENT,
     TransactionID INT NOT NULL,
     PC_ID INT NOT NULL,
     CustomerName VARCHAR(255) NOT NULL,
     BookedTime TIME NOT NULL,
     
     FOREIGN KEY (`TransactionID`) REFERENCES `TransactionHeader`(`TransactionID`) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (`PC_ID`) REFERENCES `PC`(`PC_ID`) ON UPDATE CASCADE ON DELETE CASCADE,
-    
-    PRIMARY KEY (TransactionID, PC_ID)
+    FOREIGN KEY (`PC_ID`) REFERENCES `PC`(`PC_ID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO `transactiondetail` (`TransactionID`, `PC_ID`, `CustomerName`, `BookedTime`) VALUES
