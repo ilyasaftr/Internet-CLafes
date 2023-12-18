@@ -108,7 +108,7 @@ public class Connect {
 		PreparedStatement ps = null;
 
 		try {
-			ps = con.prepareStatement(query);
+			ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
