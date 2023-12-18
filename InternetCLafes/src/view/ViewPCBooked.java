@@ -56,13 +56,7 @@ public class ViewPCBooked {
 	 */
 	private void initialize(ViewPCBookedVar components) {
 
-		components.titleLbl = new Label("View All PC Booked");
-
-		initializeTable(components);
-
-		components.sp = new ScrollPane();
-		components.sp.setContent(components.pcBookTable);
-		components.sp.setFitToWidth(true);
+		initializeAssign(components);
 
 		components.btnFinishBook = new Button("Finish Book");
 		components.btnCancelBook = new Button("Cancel Book");
@@ -70,9 +64,21 @@ public class ViewPCBooked {
 		components.hb = new HBox();
 		components.hb.getChildren().addAll(components.btnFinishBook, components.btnCancelBook);
 		
+		components.vb.getChildren().add(components.hb);
+	}
+
+	private void initializeAssign(ViewPCBookedVar components) {
+		components.titleLbl = new Label("View All PC Booked");
+
+		initializeTable(components);
+
+		components.sp = new ScrollPane();
+		components.sp.setContent(components.pcBookTable);
+		components.sp.setFitToWidth(true);
+		
 		components.vb = new VBox();
-		components.vb.getChildren().addAll(components.sp, components.hb);
-				
+		components.vb.getChildren().add(components.sp);
+		
 		components.bp = new BorderPane();
 		components.bp.setCenter(components.titleLbl);
 		components.bp.setBottom(components.vb);
@@ -85,6 +91,13 @@ public class ViewPCBooked {
 	 */
 	private void setStyle(ViewPCBookedVar components) {
 		
+		setStyleAssign(components);
+		
+		components.hb.setSpacing(15);
+		components.hb.setPadding(new Insets(10));
+	}
+
+	private void setStyleAssign(ViewPCBookedVar components) {
 		// atur ukuran lebar setiap kolom menggunakan binding
 		components.bookIDCol.prefWidthProperty().bind(components.pcBookTable.widthProperty().divide(8).multiply(2));
 		components.pcIDCol.prefWidthProperty().bind(components.pcBookTable.widthProperty().divide(8).multiply(2));
@@ -92,9 +105,6 @@ public class ViewPCBooked {
 		components.bookedDateCol.prefWidthProperty().bind(components.pcBookTable.widthProperty().divide(8).multiply(2));
 
 		components.vb.setSpacing(30);
-		
-		components.hb.setSpacing(15);
-		components.hb.setPadding(new Insets(10));
 	}
 
 	/*
@@ -141,6 +151,21 @@ public class ViewPCBooked {
 		return components.scene;
 	}
 	
+	public Scene initPageAssign(User user) {
+		ViewPCBookedVar components = new ViewPCBookedVar();
+		initializeAssign(components);
+		initializeAlert(components);
+		
+		setStyleAssign(components);
+		
+		PCBookController pc = PCBookController.getInstance();
+		pc.addViewAssignUserHandler(components, user.getUserID());
+		
+		components.bp.setTop(OperatorController.instance.menuOperator.menuBar);
+
+		return components.scene;
+	}
+
 	// inisialisasi alert baik itu kalau ga ada staff yang di-select atau kalau data invalid
 	public void initializeAlert(ViewPCBookedVar components) {
 		components.noRowAlert = new Alert(AlertType.ERROR);

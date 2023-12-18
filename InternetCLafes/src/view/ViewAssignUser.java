@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.PCBook;
+import view.ViewPCBooked.ViewPCBookedVar;
 
 public class ViewAssignUser {
 
@@ -87,6 +88,22 @@ public class ViewAssignUser {
 		initializeAlert(components);
 		
 		pcBookControl.addAssignPcHandler(components);
+		components.stage.showAndWait();
+	}
+	
+	public void initPage(PCBook pcBook, Integer pcId, ViewPCBookedVar components2) {
+		PCBookController pcBookControl = PCBookController.getInstance();
+		ViewAssignUserVar components = new ViewAssignUserVar();
+		
+		components.pcBook = pcBook;
+		components.pcId = pcId;
+		
+		initialize(components);
+		setStyle(components);
+		getData(components);
+		initializeAlert(components);
+		
+		pcBookControl.addAssignPcHandler(components, components2);
 		
 		components.stage.showAndWait();
 	}

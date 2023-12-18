@@ -10,7 +10,7 @@ public class MenuOperator {
 	
 	public MenuBar menuBar;
 	Menu menuPC, menuBook, menuReport;
-	public MenuItem menuItemViewAllPC, menuItemViewAllBook, menuItemMakeReport;
+	public MenuItem menuItemViewAllPC, menuItemViewAllBook, menuItemAssignUser, menuItemMakeReport;
 
 	public void initialize() {
 		menuBar = new MenuBar();
@@ -24,9 +24,10 @@ public class MenuOperator {
 		menuItemViewAllPC = new MenuItem("View All PCs");
 		menuItemViewAllBook = new MenuItem("View PC Booked Data");
 		menuItemMakeReport = new MenuItem("Make Report");
+		menuItemAssignUser = new MenuItem("Assign User to Another PC");
 		
 		menuPC.getItems().addAll(menuItemViewAllPC);
-		menuBook.getItems().addAll(menuItemViewAllBook);
+		menuBook.getItems().addAll(menuItemViewAllBook, menuItemAssignUser);
 		menuReport.getItems().addAll(menuItemMakeReport);
 	}
 }

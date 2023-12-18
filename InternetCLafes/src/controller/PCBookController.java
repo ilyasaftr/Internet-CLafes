@@ -62,7 +62,7 @@ public class PCBookController {
 		return pcBookModel.GetPCBookedData(PcID, date);
 	}
 
-	// Event handler untuk assign pc saat add PC
+	// Event handler untuk assign pc
 	public void addAssignPcHandler(ViewAssignUserVar components) {
 		components.btnAssign.setOnAction(e -> {
 			Integer newPCID;
@@ -95,6 +95,43 @@ public class PCBookController {
 				assignUsertoNewPC(components.pcBook.getBook_ID(), Integer.parseInt(components.newPCIDTf.getText()));
 				// tutup halaman view assign user setelah assign user
 				components.stage.close();
+			}
+		});
+	}
+	
+	public void addAssignPcHandler(ViewAssignUserVar viewAssignUserVar, ViewPCBookedVar viewPCBookedVar) {
+		viewAssignUserVar.btnAssign.setOnAction(e -> {
+			Integer newPCID;
+			PCController pcCont = PCController.getInstance();
+
+			// Validasi apakah new PC ID sudah terisi, numerik, bilangan positif, ada di
+			// database, dan belum ada PC Book
+			try {
+				newPCID = Integer.parseInt(viewAssignUserVar.newPCIDTf.getText());
+			} catch (Exception e1) {
+				newPCID = null;
+			}
+
+			if (viewAssignUserVar.newPCIDTf.getText().isBlank()) {
+				viewAssignUserVar.alert.setContentText("New PC ID can not be empty");
+				viewAssignUserVar.alert.showAndWait();
+			} else if (newPCID == null) {
+				viewAssignUserVar.alert.setContentText("New PC ID must be numeric");
+				viewAssignUserVar.alert.showAndWait();
+			} else if (newPCID <= 0) {
+				viewAssignUserVar.alert.setContentText("New PC ID must be a positive number");
+				viewAssignUserVar.alert.showAndWait();
+			} else if (pcCont.getPCDetail(newPCID) == null) {
+				viewAssignUserVar.alert.setContentText("New PC ID does not exist in database");
+				viewAssignUserVar.alert.showAndWait();
+			} else if (!GetPCBookedData(newPCID, LocalDate.now()).isEmpty()) {
+				viewAssignUserVar.alert.setContentText("New PC ID is already booked");
+				viewAssignUserVar.alert.showAndWait();
+			} else {
+				assignUsertoNewPC(viewAssignUserVar.pcBook.getBook_ID(), Integer.parseInt(viewAssignUserVar.newPCIDTf.getText()));
+				// tutup halaman view assign user setelah assign user
+				refreshTable(viewPCBookedVar);
+				viewAssignUserVar.stage.close();
 			}
 		});
 	}
@@ -137,10 +174,10 @@ public class PCBookController {
 			selectedPCBook.addAll(pcbookList);
 			
 			// testing purposes
-			for(PCBook pc: pcbookList) {
-				System.out.println(pc.getBook_ID());
-			}
-			System.out.println(LocalDate.now());
+//			for(PCBook pc: pcbookList) {
+//				System.out.println(pc.getBook_ID());
+//			}
+//			System.out.println(LocalDate.now());
 
 		});
 		
@@ -148,6 +185,12 @@ public class PCBookController {
 		// atur logic kalau button finish book ditekan
 		components.btnFinishBook.setOnAction(e -> {
 			pcBookModel.finishBook(selectedPCBook);
+			
+			if(selectedPCBook.isEmpty()) {
+				components.invalidDataAlert.setContentText("You must select at least one PC Booked Data");
+				components.invalidDataAlert.showAndWait();
+				return;
+			}
 			
 			for(PCBook pcBook: selectedPCBook) {
 				// cek apakah Booking Date sudah lewat tanggal hari ini
@@ -229,6 +272,24 @@ public class PCBookController {
 				addNewPCBook(components.PC_IDCB.getValue(), UserID, components.BookDateDP.getValue());
 				components.successAlert.setContentText("Book PC successfully booked");
 				components.successAlert.showAndWait();
+			}
+		});
+	}
+
+	public void addViewAssignUserHandler(ViewPCBookedVar components, Integer userID) {
+		components.pcBookTable.setOnMouseClicked(e -> {
+			TableSelectionModel<PCBook> tableSelectionModel = 			components.pcBookTable.getSelectionModel();
+			
+			tableSelectionModel.setSelectionMode(SelectionMode.SINGLE);
+			
+			// menampung selected item dari table
+			PCBook pcBook = tableSelectionModel.getSelectedItem();
+
+			
+			// kalau job ada yang di-select
+			if(pcBook != null) {
+				Integer pcId = pcBook.getPC_ID();
+				OperatorController.getInstance().createAssignUser(pcBook, pcId, components);
 			}
 		});
 	}
