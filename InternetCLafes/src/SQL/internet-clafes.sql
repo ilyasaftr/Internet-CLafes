@@ -286,6 +286,7 @@ ALTER TABLE `job`
 -- Constraints for table `pcbook`
 --
 ALTER TABLE `pcbook`
+  ADD CONSTRAINT `pcbook_ibfk_1` FOREIGN KEY (`PC_ID`) REFERENCES `pc` (`PC_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `pcbook_ibfk_2` FOREIGN KEY (`UserID`) REFERENCES `user` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -298,7 +299,6 @@ ALTER TABLE `report`
 -- Constraints for table `transactiondetail`
 --
 ALTER TABLE `transactiondetail`
-  ADD CONSTRAINT `transactiondetail_ibfk_1` FOREIGN KEY (`TransactionID`) REFERENCES `transactionheader` (`TransactionID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `transactiondetail_ibfk_2` FOREIGN KEY (`PC_ID`) REFERENCES `pc` (`PC_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
