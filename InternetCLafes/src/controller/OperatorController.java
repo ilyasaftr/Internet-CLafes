@@ -4,6 +4,7 @@ import main.Main;
 import view.MakeReport;
 import view.MenuOperator;
 import view.ViewAllPC;
+import view.ViewPCBooked;
 
 public class OperatorController {
 	// Class ini dianggap sebagai Operator Menu Controller, dia yang mengatur event handler dan validasi dari bagian Menu dari role Operator
@@ -40,7 +41,7 @@ public class OperatorController {
 		
 		// View All Book
 		mo.menuItemViewAllBook.setOnAction(e->{
-			Main.changeScene(null);
+			Main.changeScene(new ViewPCBooked().initPage(Main.user));
 		});
 		
 		// View All PC

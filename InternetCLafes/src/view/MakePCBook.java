@@ -19,7 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import model.User;
 
-public class PCBook {
+public class MakePCBook {
 	public class PCBookVar{
 		public User user;
 		Scene scene;
