@@ -95,6 +95,10 @@ public class PCBookController {
 			} else if (!GetPCBookedData(newPCID, components.pcBook.getBookedDate()).isEmpty()) {
 				components.alert.setContentText("New PC ID is already booked");
 				components.alert.showAndWait();
+			}
+			else if(!pcCont.getPCDetail(newPCID).getPC_Condition().equals("Usable")){
+				components.alert.setContentText("New PC ID is not usable");
+				components.alert.showAndWait();
 			} else {
 				assignUsertoNewPC(components.pcBook.getBook_ID(), Integer.parseInt(components.newPCIDTf.getText()));
 				// tutup halaman view assign user setelah assign user
@@ -132,7 +136,12 @@ public class PCBookController {
 			} else if (!GetPCBookedData(newPCID, viewAssignUserVar.pcBook.getBookedDate()).isEmpty()) {
 				viewAssignUserVar.alert.setContentText("New PC ID is already booked");
 				viewAssignUserVar.alert.showAndWait();
-			} else {
+			}
+			else if(!pcCont.getPCDetail(newPCID).getPC_Condition().equals("Usable")){
+				viewAssignUserVar.alert.setContentText("New PC ID is not usable");
+				viewAssignUserVar.alert.showAndWait();
+			}
+			else {
 				assignUsertoNewPC(viewAssignUserVar.pcBook.getBook_ID(), Integer.parseInt(viewAssignUserVar.newPCIDTf.getText()));
 				// tutup halaman view assign user setelah assign user
 				refreshTable(viewPCBookedVar);
