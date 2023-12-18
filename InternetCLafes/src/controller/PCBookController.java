@@ -131,11 +131,16 @@ public class PCBookController {
 			
 			// menampung selected item dari table
 			ObservableList<PCBook> pcbookList = tableSelectionModel.getSelectedItems();
-			pcbookList.addListener((javafx.collections.ListChangeListener.Change<? extends PCBook> change) -> {
-				selectedPCBook.clear();
-				selectedPCBook.addAll(pcbookList);
-
-			});
+			
+			// update arraylist contents
+			selectedPCBook.clear();
+			selectedPCBook.addAll(pcbookList);
+			
+			// testing purposes
+			for(PCBook pc: pcbookList) {
+				System.out.println(pc.getBook_ID());
+			}
+			System.out.println(LocalDate.now());
 
 		});
 		
@@ -145,11 +150,17 @@ public class PCBookController {
 			pcBookModel.finishBook(selectedPCBook);
 			
 			for(PCBook pcBook: selectedPCBook) {
+				// cek apakah Booking Date sudah lewat tanggal hari ini
+				// (Booked Date) - (Current Date)
+				// PAST	 			PRESENT
+				
+				// kalau tanggal book belum lewat tanggal hari ini, batal finish book 
 				if(!pcBook.getBookedDate().isBefore(LocalDate.now())) {
 					components.invalidDataAlert.setContentText("PC Booked Data Has Not Passed Yet");
 					components.invalidDataAlert.showAndWait();
 					return;
 				}
+				System.out.println(pcBook.getBookedDate());
 			}
 			
 			for(PCBook pcBook: selectedPCBook) {
@@ -174,7 +185,10 @@ public class PCBookController {
 				components.invalidDataAlert.setContentText("You must select only one PC Book data");
 				components.invalidDataAlert.showAndWait();
 			}
-			else if(selectedPCBook.get(0).getBookedDate().isAfter(LocalDate.now())) {
+			// cek apakah Booking Date sudah lewat tanggal hari ini
+			// (Booked Date) - (Current Date)
+			// PAST	 			PRESENT
+			else if(selectedPCBook.get(0).getBookedDate().isBefore(LocalDate.now())) {
 				components.invalidDataAlert.setContentText("PC Booked Date already passed today's date");
 				components.invalidDataAlert.showAndWait();
 			}
