@@ -2,11 +2,11 @@ package controller;
 
 import main.Main;
 import model.User;
-import view.HomePage;
 import view.Login;
 import view.Login.LoginVar;
 import view.Register;
 import view.Register.RegisterVar;
+import view.ViewAllPC;
 
 public class PageController {
 	// Class ini digunakan untuk mengendalikan logic dari page yang akan dituju, tepatnya pada bagian awal saja (login, register).
@@ -55,6 +55,12 @@ public class PageController {
 	// method untuk langsung redirect ke home page, kalau sudah login
 	public void redirectToHome(User user) {
 		Main.user = user;
-		Main.changeScene(new HomePage().initPage(user));
+		if(user.getUserRole().equals("Admin")) {
+			Main.changeScene(new ViewAllPC().initPageAdmin(user.getUserRole()));
+		}
+		else {
+			Main.changeScene(new ViewAllPC().initPage(user.getUserRole()));
+		}
+		
 	}
 }
