@@ -201,7 +201,6 @@ ALTER TABLE `pc`
 -- Indexes for table `pcbook`
 --
 ALTER TABLE `pcbook`
-  ADD PRIMARY KEY (`Book_ID`),
   ADD KEY `PC_ID` (`PC_ID`),
   ADD KEY `UserID` (`UserID`);
 
@@ -287,7 +286,6 @@ ALTER TABLE `job`
 -- Constraints for table `pcbook`
 --
 ALTER TABLE `pcbook`
-  ADD CONSTRAINT `pcbook_ibfk_1` FOREIGN KEY (`PC_ID`) REFERENCES `pc` (`PC_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `pcbook_ibfk_2` FOREIGN KEY (`UserID`) REFERENCES `user` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
