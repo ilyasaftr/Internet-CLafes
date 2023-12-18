@@ -23,6 +23,14 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+DROP TABLE IF EXISTS `pcbook`;
+DROP TABLE IF EXISTS `transactiondetail`;
+DROP TABLE IF EXISTS `transactionheader`;
+DROP TABLE IF EXISTS `job`;
+DROP TABLE IF EXISTS `report`;
+DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `pc`;
+
 --
 -- Table structure for table `job`
 --
@@ -93,6 +101,7 @@ INSERT INTO `pcbook` (`Book_ID`, `PC_ID`, `UserID`, `BookedDate`) VALUES
 --
 -- Table structure for table `report`
 --
+
 
 CREATE TABLE `report` (
   `Report_ID` int(11) NOT NULL,
